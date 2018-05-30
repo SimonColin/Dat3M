@@ -175,8 +175,8 @@ program [String name] returns [Program p]:
 		('=' iValue = DIGIT {$l.loc.setIValue(Integer.parseInt($iValue.getText()));})*
 		{mapLocs.put($l.loc.getName(), $l.loc);}
 		)* RCBRA 
-	('thread t' mainThread = DIGIT {mapRegs.put($mainThread.getText(), new HashMap<String, Register>());} 
-		LCBRA t1=inst [$mainThread.getText()] RCBRA {p.add($t1.t);})+ {$p = p;}
+	('thread t' mainThread = DIGIT {mapRegs.put($mainThread.getText(), new HashMap<String, Register>());}
+		LCBRA t1=inst [$mainThread.getText()] RCBRA {$t1.t.setOrig($mainThread.getText()); p.add($t1.t); })+ {$p = p;}
 	('exists'
 	(l = location '=' value = DIGIT ','
 	{

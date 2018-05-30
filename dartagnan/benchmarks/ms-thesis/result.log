@@ -1,0 +1,191 @@
+[
+{
+
+"options": {"unrollingBound": 1},
+"processStatistics": {
+"t0": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+},
+"t1": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+}},
+"processStatisticsUnrolled": {
+"t0": {
+    "XEvent": 16,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 7
+},
+"t1": {
+    "XEvent": 16,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 7
+}},
+"timers": {
+"Interpretation": { "elapsedTimeSec": 0.021 },
+"ProgramEncoding": { "elapsedTimeSec": 0.04 },
+"ProgramDomainEncoding": { "elapsedTimeSec": 0.718 },
+"MemoryModelEncoding": { "elapsedTimeSec": 0.0 }
+}
+
+}
+, 
+{
+
+"options": {"unrollingBound": 2},
+"processStatistics": {
+"t0": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+},
+"t1": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+}},
+"processStatisticsUnrolled": {
+"t0": {
+    "XEvent": 42,
+    "XLocalMemoryEvent": 4,
+    "XSharedMemoryEvent": 20,
+    "XNopEvent": 18
+},
+"t1": {
+    "XEvent": 42,
+    "XLocalMemoryEvent": 4,
+    "XSharedMemoryEvent": 20,
+    "XNopEvent": 18
+}},
+"timers": {
+"Interpretation": { "elapsedTimeSec": 0.024 },
+"ProgramEncoding": { "elapsedTimeSec": 0.069 },
+"ProgramDomainEncoding": { "elapsedTimeSec": 4.61 },
+"MemoryModelEncoding": { "elapsedTimeSec": 0.0 }
+}
+
+}
+, 
+{
+
+"options": {"unrollingBound": 3},
+"processStatistics": {
+"t0": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+},
+"t1": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+}},
+"processStatisticsUnrolled": {
+"t0": {
+    "XEvent": 81,
+    "XLocalMemoryEvent": 6,
+    "XSharedMemoryEvent": 40,
+    "XNopEvent": 35
+},
+"t1": {
+    "XEvent": 81,
+    "XLocalMemoryEvent": 6,
+    "XSharedMemoryEvent": 40,
+    "XNopEvent": 35
+}},
+"timers": {
+"Interpretation": { "elapsedTimeSec": 0.035 },
+"ProgramEncoding": { "elapsedTimeSec": 0.127 },
+"ProgramDomainEncoding": { "elapsedTimeSec": 43.079 },
+"MemoryModelEncoding": { "elapsedTimeSec": 0.0 }
+}
+
+}
+, 
+{
+
+"options": {"unrollingBound": 4},
+"processStatistics": {
+"t0": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+},
+"t1": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+}},
+"processStatisticsUnrolled": {
+"t0": {
+    "XEvent": 135,
+    "XLocalMemoryEvent": 8,
+    "XSharedMemoryEvent": 68,
+    "XNopEvent": 59
+},
+"t1": {
+    "XEvent": 135,
+    "XLocalMemoryEvent": 8,
+    "XSharedMemoryEvent": 68,
+    "XNopEvent": 59
+}},
+"timers": {
+"Interpretation": { "elapsedTimeSec": 0.031 },
+"ProgramEncoding": { "elapsedTimeSec": 0.155 },
+"ProgramDomainEncoding": { "elapsedTimeSec": 119.401 },
+"MemoryModelEncoding": { "elapsedTimeSec": 0.0 }
+}
+
+}
+, 
+{
+
+"options": {"unrollingBound": 5},
+"processStatistics": {
+"t0": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+},
+"t1": {
+    "XEvent": 10,
+    "XLocalMemoryEvent": 2,
+    "XSharedMemoryEvent": 7,
+    "XNopEvent": 1
+}},
+"processStatisticsUnrolled": {
+"t0": {
+    "XEvent": 206,
+    "XLocalMemoryEvent": 10,
+    "XSharedMemoryEvent": 105,
+    "XNopEvent": 91
+},
+"t1": {
+    "XEvent": 206,
+    "XLocalMemoryEvent": 10,
+    "XSharedMemoryEvent": 105,
+    "XNopEvent": 91
+}},
+"timers": {
+"Interpretation": { "elapsedTimeSec": 0.047 },
+"ProgramEncoding": { "elapsedTimeSec": 0.293 },
+"ProgramDomainEncoding": { "elapsedTimeSec": 524.396 },
+"MemoryModelEncoding": { "elapsedTimeSec": 0.0 }
+
+}
+}
+]

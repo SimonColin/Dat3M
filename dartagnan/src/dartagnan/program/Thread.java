@@ -11,6 +11,11 @@ import dartagnan.utils.Pair;
 
 public class Thread {
 
+    public String originalName;
+    public void setOrig(String name) {
+        originalName = name;
+    }
+
 	protected int condLevel;
 	// Main thread where this Event, Seq, etc belongs
 	protected Integer mainThread;

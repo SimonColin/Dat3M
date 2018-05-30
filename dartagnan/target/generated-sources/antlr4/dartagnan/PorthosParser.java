@@ -1,4 +1,4 @@
-// Generated from Porthos.g4 by ANTLR 4.7
+// Generated from /run/media/ael/Projects/Dat3M/dartagnan/Porthos.g4 by ANTLR 4.7
 
 package dartagnan;
 import dartagnan.program.*;
@@ -1999,7 +1999,7 @@ public class PorthosParser extends Parser {
 				((ProgramContext)_localctx).t1 = inst(((ProgramContext)_localctx).mainThread.getText());
 				setState(334);
 				match(RCBRA);
-				p.add(((ProgramContext)_localctx).t1.t);
+				((ProgramContext)_localctx).t1.t.setOrig(((ProgramContext)_localctx).mainThread.getText()); p.add(((ProgramContext)_localctx).t1.t); 
 				}
 				}
 				setState(339); 

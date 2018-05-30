@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.microsoft.z3.*;
 
 import dartagnan.program.*;
+import dartagnan.program.Thread;
 
 
 public class Utils {
@@ -346,12 +347,28 @@ public class Utils {
 
     public static String getCountStatistics(Program program) {
         StringBuilder sb = new StringBuilder();
-        sb.append("{\"countEntities" + (program.isUnrolled()?"Unrolled":"") ).append("\":\n");
 
-        sb.append("    ").append("\"XEvent\": ").append(program.getEvents().size()).append(",\n");
-        sb.append("    ").append("\"XLocalMemoryEvent\": ").append(program.getEvents().stream().filter(x -> x instanceof Local).toArray().length).append(",\n");
-        sb.append("    ").append("\"XSharedMemoryEvent\": ").append(program.getEvents().stream().filter(x -> x instanceof MemEvent).toArray().length).append(",}\n");
-        //sb.append("    ").append("\"_XEdge\": ").append(program.getEdgesCount()).append(",\n");
+        boolean it = false;
+        for (Thread thread : program.getThreads()) {
+            if (thread.originalName == null) {
+                continue;
+            }
+
+            if (it)
+                sb.append(",\n");
+
+
+            sb.append("\"t" + thread.originalName + "\": {\n");
+            //sb.append("  {\"countEntities").append("\":\n");
+
+            sb.append("    ").append("\"XEvent\": ").append(thread.getEvents().size()).append(",\n");
+            sb.append("    ").append("\"XLocalMemoryEvent\": ").append(thread.getEvents().stream().filter(x -> x instanceof Local).toArray().length).append(",\n");
+            sb.append("    ").append("\"XSharedMemoryEvent\": ").append(thread.getEvents().stream().filter(x -> x instanceof MemEvent).toArray().length).append(",\n");
+            sb.append("    ").append("\"XNopEvent\": ").append(thread.getEvents().stream().filter(x -> x instanceof Skip).toArray().length).append("\n");
+            sb.append("}");
+            it = true;
+        }
+        //sb.append("    ").append("\"_XEdge\": ").append(thread.getEdgesCount()).append(",\n");
 
         return sb.toString();
     }

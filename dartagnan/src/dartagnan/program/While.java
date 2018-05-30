@@ -1,6 +1,8 @@
 package dartagnan.program;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import dartagnan.expression.AConst;
 import dartagnan.expression.BExpr;
@@ -42,6 +44,7 @@ public class While extends Thread {
 				newStore.condLevel = condLevel;
 				Thread newThread = new If(pred, new Seq(newLocal, newStore), new Skip());
 				newThread.condLevel = oldCondLevel;
+				newThread.setOrig(originalName);
 				return newThread;				
 			}
 			return new Skip();
@@ -53,10 +56,18 @@ public class While extends Thread {
 			int oldCondLevel = condLevel;
 			Thread newThread = new If(pred, new Seq(copyT, unroll(steps - 1, obsNoTermination)), new Skip());
 			newThread.condLevel = oldCondLevel;
+            newThread.setOrig(originalName);
 			return newThread;
 		}
 	}
-	
+
+
+	@Override
+    public Set<Event> getEvents() {
+        Set<Event> ret = new HashSet<>(t.getEvents());
+        return ret;
+    }
+
 	public Thread unroll(int steps) {
 		return unroll(steps, false);
 	}

@@ -1,4 +1,4 @@
-// Generated from Porthos.g4 by ANTLR 4.7
+// Generated from /run/media/ael/Projects/Dat3M/dartagnan/Porthos.g4 by ANTLR 4.7
 
 package dartagnan;
 import dartagnan.program.*;

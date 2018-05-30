@@ -148,16 +148,27 @@ public class Dartagnan {
             steps = Integer.parseInt(cmd.getOptionValue("unroll"));        	
         }
 
-        System.out.println("\"unrollingBound\": " + steps + ",");
+        System.out.println("{\n");
+        System.out.println("\"options\": {\"unrollingBound\": " + steps + "},");
         //System.out.print(Utils.getCountStatistics(p));
 
         timer.restart();
-		p.initialize(steps);
-		p.compile(target, false, true);
-        System.out.println("\"Interpretation\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+        System.out.println("\"processStatistics\": {");
         System.out.print(Utils.getCountStatistics(p));
+        System.out.println("},");
 
-		Context ctx = new Context();
+        p.initialize(steps);
+		p.compile(target, false, true);
+
+        System.out.println("\"processStatisticsUnrolled\": {");
+        System.out.print(Utils.getCountStatistics(p));
+        System.out.println("},");
+
+        System.out.println("\"timers\": {");
+        System.out.println("\"Interpretation\": { \"elapsedTimeSec\": " + timer.currentTime() + " },");
+
+
+        Context ctx = new Context();
 		Solver s = ctx.mkSolver();
 
 		timer.restart();
@@ -165,11 +176,11 @@ public class Dartagnan {
 		s.add(p.getAss().encode(ctx));
 		s.add(p.encodeCF(ctx));
 		s.add(p.encodeDF_RF(ctx));
-        System.out.println("\"ProgramEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+        System.out.println("\"ProgramEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " },");
 
         timer.restart();
 		s.add(Domain.encode(p, ctx));
-        System.out.println("\"ProgramDomainEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+        System.out.println("\"ProgramDomainEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " },");
 
         timer.restart();
         if (mcm != null) {
@@ -180,12 +191,12 @@ public class Dartagnan {
     		s.add(p.encodeConsistent(ctx, target));
         }
         System.out.println("\"MemoryModelEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
-        System.out.println();
+        System.out.println("}");
 
 		ctx.setPrintMode(Z3_ast_print_mode.Z3_PRINT_SMTLIB_FULL);
 
 		if(s.check() == Status.SATISFIABLE) {
-			System.out.println("The state is reachable");
+			//System.out.println("The state is reachable");
 			//System.out.println("       0");
 			if(cmd.hasOption("draw")) {
 				String outputPath = cmd.getOptionValue("draw");
@@ -193,9 +204,11 @@ public class Dartagnan {
 			}
 		}
 		else {
-			System.out.println("The state is not reachable");
+			//System.out.println("The state is not reachable");
 			//System.out.println("       1");
 		}
+
+        System.out.println("\n}");
 		return;
 	}	
 }
