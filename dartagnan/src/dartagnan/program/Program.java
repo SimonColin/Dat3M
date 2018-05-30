@@ -20,10 +20,17 @@ public class Program {
 	public Assert ass; 
 	private List<Thread> threads;
 
+    private boolean isUnrolled = false;
+
 	public Program (String name) {
 		this.name = name;
 		this.threads = new ArrayList<Thread>();
 	}
+
+    public boolean isUnrolled() {
+        return isUnrolled;
+    }
+
 	
 	public void add(Thread t) {
 		threads.add(t);
@@ -79,6 +86,7 @@ public class Program {
 		for(Location loc : locs) {
 			threads.add(new Init(loc));
 		}
+        isUnrolled = true;
 	}
 	
 	public void initialize(int steps) {

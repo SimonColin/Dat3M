@@ -8,14 +8,8 @@ import java.util.stream.Collectors;
 
 import com.microsoft.z3.*;
 
-import dartagnan.program.Event;
-import dartagnan.program.Init;
-import dartagnan.program.Load;
-import dartagnan.program.Location;
-import dartagnan.program.MemEvent;
-import dartagnan.program.Program;
-import dartagnan.program.Register;
-import dartagnan.program.Store;
+import dartagnan.program.*;
+
 
 public class Utils {
 
@@ -349,4 +343,16 @@ public class Utils {
 	public static BoolExpr cycleEdge(String relName, Event e1, Event e2, Context ctx) throws Z3Exception {
 		return ctx.mkBoolConst(String.format("Cycle:%s(%s,%s)", relName, e1.repr(), e2.repr()));
 	}
+
+    public static String getCountStatistics(Program program) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"countEntities" + (program.isUnrolled()?"Unrolled":"") ).append("\":\n");
+
+        sb.append("    ").append("\"XEvent\": ").append(program.getEvents().size()).append(",\n");
+        sb.append("    ").append("\"XLocalMemoryEvent\": ").append(program.getEvents().stream().filter(x -> x instanceof Local).toArray().length).append(",\n");
+        sb.append("    ").append("\"XSharedMemoryEvent\": ").append(program.getEvents().stream().filter(x -> x instanceof MemEvent).toArray().length).append(",}\n");
+        //sb.append("    ").append("\"_XEdge\": ").append(program.getEdgesCount()).append(",\n");
+
+        return sb.toString();
+    }
 }

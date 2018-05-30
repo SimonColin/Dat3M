@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import dartagnan.program.Local;
+import dartagnan.program.MemEvent;
+import dartagnan.utils.Timer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.io.FileUtils;
@@ -32,6 +35,7 @@ public class Dartagnan {
 
 	public static void main(String[] args) throws Z3Exception, IOException {		
         Wmm mcm = null;
+        Timer timer = new Timer();
 
 		List<String> MCMs = Arrays.asList("sc", "tso", "pso", "rmo", "alpha", "power", "arm");
 		
@@ -144,18 +148,30 @@ public class Dartagnan {
             steps = Integer.parseInt(cmd.getOptionValue("unroll"));        	
         }
 
+        System.out.println("\"unrollingBound\": " + steps + ",");
+        //System.out.print(Utils.getCountStatistics(p));
+
+        timer.restart();
 		p.initialize(steps);
 		p.compile(target, false, true);
-		
+        System.out.println("\"Interpretation\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+        System.out.print(Utils.getCountStatistics(p));
+
 		Context ctx = new Context();
 		Solver s = ctx.mkSolver();
-		
+
+		timer.restart();
 		s.add(p.encodeDF(ctx));
 		s.add(p.getAss().encode(ctx));
 		s.add(p.encodeCF(ctx));
 		s.add(p.encodeDF_RF(ctx));
+        System.out.println("\"ProgramEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+
+        timer.restart();
 		s.add(Domain.encode(p, ctx));
-		
+        System.out.println("\"ProgramDomainEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+
+        timer.restart();
         if (mcm != null) {
             s.add(mcm.encode(p, ctx));
             s.add(mcm.Consistent(p, ctx));
@@ -163,6 +179,8 @@ public class Dartagnan {
     		s.add(p.encodeMM(ctx, target, cmd.hasOption("relax")));
     		s.add(p.encodeConsistent(ctx, target));
         }
+        System.out.println("\"MemoryModelEncoding\": { \"elapsedTimeSec\": " + timer.currentTime() + " }");
+        System.out.println();
 
 		ctx.setPrintMode(Z3_ast_print_mode.Z3_PRINT_SMTLIB_FULL);
 
