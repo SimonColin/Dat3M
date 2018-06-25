@@ -14,8 +14,10 @@ import static dartagnan.utils.Utils.ssaLoc;
 import static dartagnan.utils.Utils.initValue;;
 
 public class Init extends MemEvent {
-	
+
 	public Init(Location loc) {
+		type.add(EVENT_TYPE_INIT);
+		type.add(EVENT_TYPE_WRITE);
 		setHLId(hashCode());
 		this.loc = loc;
 		this.condLevel = 0;

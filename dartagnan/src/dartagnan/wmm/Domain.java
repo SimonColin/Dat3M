@@ -41,6 +41,34 @@ public class Domain {
 		Set<Event> barriers = program.getEvents().stream().filter(e -> e instanceof Barrier).collect(Collectors.toSet());
 		Set<Event> eventsL = program.getEvents().stream().filter(e -> e instanceof MemEvent || e instanceof Local).collect(Collectors.toSet());
 
+        // New Relation encoding begins
+		Relation[] rels = {
+				new RelSetToSet("R", "R", "RR"),
+				new RelSetToSet("R", "W", "RW"),
+                new RelSetToSet("R", "M", "RM"),
+                new RelSetToSet("R", "I", "RI"),
+
+				new RelSetToSet("W", "W", "WW"),
+				new RelSetToSet("W", "R", "WR"),
+                new RelSetToSet("W", "M", "WM"),
+                new RelSetToSet("W", "I", "WI"),
+
+				new RelSetToSet("I", "M", "IM"),
+				new RelSetToSet("I", "W", "IW"),
+				new RelSetToSet("I", "R", "IR"),
+
+				new RelSetToSet("M", "I", "MI"),
+                new RelSetToSet("M", "R", "MR"),
+                new RelSetToSet("M", "W", "MW")
+		};
+
+		Set<String> encodedRels = new HashSet<>();
+		for(Relation rel : rels){
+            enc = ctx.mkAnd(enc, rel.encode(program, ctx, encodedRels));
+        }
+
+        // End of the new relation encoding
+
 		for(Event e : eventsL) {
 			enc = ctx.mkAnd(enc, ctx.mkNot(edge("ii", e, e, ctx)));
 			enc = ctx.mkAnd(enc, ctx.mkNot(edge("ic", e, e, ctx)));
@@ -52,66 +80,7 @@ public class Domain {
 			for(Event e2 : mEvents) {
 				enc = ctx.mkAnd(enc, ctx.mkImplies(edge("rf", e1, e2, ctx), ctx.mkAnd(e1.executes(ctx), e2.executes(ctx))));
 				enc = ctx.mkAnd(enc, ctx.mkImplies(edge("co", e1, e2, ctx), ctx.mkAnd(e1.executes(ctx), e2.executes(ctx))));
-				if(!(e1 instanceof Init)) {
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("IM", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("IW", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("IR", e1, e2, ctx)));
-				}
-				else {
-					enc = ctx.mkAnd(enc, edge("IM", e1, e2, ctx));
-				}
-				if(!(e2 instanceof Init)) {
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("MI", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("WI", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("RI", e1, e2, ctx)));
-				}
-				else {
-					enc = ctx.mkAnd(enc, edge("MI", e1, e2, ctx));
-				}
-				if(!(e1 instanceof Load)) {
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("RM", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("RW", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("RR", e1, e2, ctx)));
-				}
-				else {
-					enc = ctx.mkAnd(enc, edge("RM", e1, e2, ctx));
-				}
-				if(!(e2 instanceof Load)) {
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("MR", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("WR", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("RR", e1, e2, ctx)));
-				}
-				else {
-					enc = ctx.mkAnd(enc, edge("MR", e1, e2, ctx));
-				}
-				if(!(e1 instanceof Store || e1 instanceof Init)) {
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("WM", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("WW", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("WR", e1, e2, ctx)));
-				}
-				else {
-					enc = ctx.mkAnd(enc, edge("WM", e1, e2, ctx));
-				}
-				if(!(e2 instanceof Store || e2 instanceof Init)) {
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("MW", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("WW", e1, e2, ctx)));
-					enc = ctx.mkAnd(enc, ctx.mkNot(edge("RW", e1, e2, ctx)));
-				}
-				else {
-					enc = ctx.mkAnd(enc, edge("MW", e1, e2, ctx));
-				}
-				if(e1 instanceof Load && e2 instanceof Load) {
-					enc = ctx.mkAnd(enc, edge("RR", e1, e2, ctx));
-				}
-				if(e1 instanceof Load && (e2 instanceof Init || e2 instanceof Store)) {
-					enc = ctx.mkAnd(enc, edge("RW", e1, e2, ctx));
-				}
-				if((e1 instanceof Init || e1 instanceof Store) && (e2 instanceof Init || e2 instanceof Store)) {
-					enc = ctx.mkAnd(enc, edge("WW", e1, e2, ctx));
-				}
-				if((e1 instanceof Init || e1 instanceof Store) && e2 instanceof Load) {
-					enc = ctx.mkAnd(enc, edge("WR", e1, e2, ctx));
-				}
+
 				if(e1 == e2) {
 					enc = ctx.mkAnd(enc, edge("id", e1, e2, ctx));
 				}

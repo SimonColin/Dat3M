@@ -20,12 +20,14 @@ public class Store extends MemEvent {
 	private AConst val;
 	
 	public Store(Location loc, Register reg) {
+		type.add(EVENT_TYPE_WRITE);
 		this.reg = reg;
 		this.loc = loc;
 		this.condLevel = 0;
 	}
 
 	public Store(Location loc, AConst val) {
+		type.add(EVENT_TYPE_WRITE);
 		this.val = val;
 		this.loc = loc;
 		this.condLevel = 0;

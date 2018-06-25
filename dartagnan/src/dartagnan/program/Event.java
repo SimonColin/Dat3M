@@ -1,5 +1,7 @@
 package dartagnan.program;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,15 +13,32 @@ import dartagnan.utils.MapSSA;
 import dartagnan.utils.Pair;
 
 public class Event extends Thread {
-	
+
+    public static final String EVENT_TYPE_INIT = "I";
+    public static final String EVENT_TYPE_READ = "R";
+    public static final String EVENT_TYPE_WRITE = "W";
+    public static final String EVENT_TYPE_READ_MODIFY_WRITE = "RMW";
+    public static final String EVENT_TYPE_MEMORY = "M";
+    public static final String EVENT_TYPE_FENCE = "F";
+    public static final String EVENT_TYPE_LOCK = "LKW";
+    public static final String EVENT_TYPE_ATOMIC = "A";
+    public static final String EVENT_TYPE_ANY = "_";
+
 	private Integer eid;
 	private Integer hlId;
 	private Integer unfCopy;
 
 	private Set<Register> condReg;
 	protected LastModMap lastModMap;
+
+	protected List<String> type = new ArrayList<String>();
 	
 	public Event() {}
+
+	public boolean filter(String param){
+		return param.equals(EVENT_TYPE_ANY)
+                || type.indexOf(param) > -1;
+	}
 	
 	public Integer getEId() {
 		return eid;

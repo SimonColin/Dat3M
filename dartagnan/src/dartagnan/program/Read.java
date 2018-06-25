@@ -16,6 +16,7 @@ public class Read extends MemEvent {
 	private String atomic;
 	
 	public Read(Register reg, Location loc, String atomic) {
+		type.add(EVENT_TYPE_READ);
 		this.reg = reg;
 		this.loc = loc;
 		this.atomic = atomic;

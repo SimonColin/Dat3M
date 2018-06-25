@@ -9,7 +9,9 @@ public class MemEvent extends Event {
 	public Expr ssaLoc;
 	protected int memId;
 	
-	public MemEvent() {}
+	public MemEvent() {
+		type.add(EVENT_TYPE_MEMORY);
+	}
 	
 	public Location getLoc() {
 		return loc;

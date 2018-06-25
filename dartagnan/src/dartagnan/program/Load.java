@@ -18,6 +18,7 @@ public class Load extends MemEvent {
 	private Integer ssaRegIndex;
 	
 	public Load(Register reg, Location loc) {
+		type.add(EVENT_TYPE_READ);
 		this.reg = reg;
 		this.loc = loc;
 		this.condLevel = 0;

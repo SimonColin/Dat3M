@@ -18,6 +18,7 @@ public class Write extends MemEvent {
 	private String atomic;
 	
 	public Write(Location loc, Register reg, String atomic) {
+		type.add(EVENT_TYPE_WRITE);
 		this.reg = reg;
 		this.loc = loc;
 		this.atomic = atomic;
@@ -26,6 +27,7 @@ public class Write extends MemEvent {
 	}
 
     public Write(Location loc, AConst val, String atomic) {
+		type.add(EVENT_TYPE_WRITE);
         this.val = val;
         this.loc = loc;
         this.atomic = atomic;
