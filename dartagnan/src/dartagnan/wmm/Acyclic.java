@@ -32,7 +32,7 @@ public class Acyclic extends Axiom {
     }
 
     @Override
-    public String write() {
+    public String toString() {
         return String.format("Acyclic(%s)", rel.getName());
     }
 

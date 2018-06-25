@@ -16,7 +16,6 @@ import java.util.Set;
  * @author Florian Furbach
  */
 public class BasicRelation extends Relation{
-        public static final String BASERELS[] = {"po", "co", "fr", "rf", "poloc", "rfe", "WR", "mfence"};
 
     public BasicRelation(String rel) {
         super(rel);
@@ -42,7 +41,4 @@ public class BasicRelation extends Relation{
     protected BoolExpr encodePredicateApprox(Program program, Context ctx) throws Z3Exception {
         return ctx.mkTrue();
     }
-    
-    
-    
 }

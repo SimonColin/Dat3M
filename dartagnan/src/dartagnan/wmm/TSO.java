@@ -6,6 +6,7 @@ import static dartagnan.wmm.Encodings.satAcyclic;
 import static dartagnan.wmm.Encodings.satCycle;
 import static dartagnan.wmm.Encodings.satCycleDef;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,13 @@ public class TSO {
 	
 	public static BoolExpr encode(Program program, Context ctx) throws Z3Exception {
 		Set<Event> events = program.getEvents().stream().filter(e -> e instanceof MemEvent).collect(Collectors.toSet());
-		BoolExpr enc = satUnion("co", "fr", events, ctx);
+
+        // TODO: We do not actually need encodedRelations here
+		Set<String> encodedRelations = new HashSet<>();
+		Relation WR = new RelSetToSet("W", "R", "WR");
+        BoolExpr enc = WR.encode(program, ctx, encodedRelations);
+
+		enc = ctx.mkAnd(enc, satUnion("co", "fr", events, ctx));
 		enc = ctx.mkAnd(enc, satUnion("com", "(co+fr)", "rf", events, ctx));
 		enc = ctx.mkAnd(enc, satUnion("poloc", "com", events, ctx));
 	    enc = ctx.mkAnd(enc, satUnion("com-tso", "(co+fr)", "rfe", events, ctx));

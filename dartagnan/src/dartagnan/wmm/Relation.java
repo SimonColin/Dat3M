@@ -36,11 +36,11 @@ public abstract class Relation {
      *  
      * @return the term that defines the relation.
      */
-    public String write(){
+    public String toString(){
         if(isnamed) return String.format("%s := %s", name, term);
         else return String.format("%s", name);
     }
-    
+
     /**
      * This is only used by the parser where a relation is defined and named later.
      * Only use this method before relations depending on this one are encoded!!!

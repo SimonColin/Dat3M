@@ -61,6 +61,16 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitRelation(ModelParser.RelationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ModelParser#setRelation}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetRelation(ModelParser.SetRelationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#setRelation}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetRelation(ModelParser.SetRelationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ModelParser#base}.
 	 * @param ctx the parse tree
 	 */

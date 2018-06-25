@@ -41,34 +41,6 @@ public class Domain {
 		Set<Event> barriers = program.getEvents().stream().filter(e -> e instanceof Barrier).collect(Collectors.toSet());
 		Set<Event> eventsL = program.getEvents().stream().filter(e -> e instanceof MemEvent || e instanceof Local).collect(Collectors.toSet());
 
-        // New Relation encoding begins
-		Relation[] rels = {
-				new RelSetToSet("R", "R", "RR"),
-				new RelSetToSet("R", "W", "RW"),
-                new RelSetToSet("R", "M", "RM"),
-                new RelSetToSet("R", "I", "RI"),
-
-				new RelSetToSet("W", "W", "WW"),
-				new RelSetToSet("W", "R", "WR"),
-                new RelSetToSet("W", "M", "WM"),
-                new RelSetToSet("W", "I", "WI"),
-
-				new RelSetToSet("I", "M", "IM"),
-				new RelSetToSet("I", "W", "IW"),
-				new RelSetToSet("I", "R", "IR"),
-
-				new RelSetToSet("M", "I", "MI"),
-                new RelSetToSet("M", "R", "MR"),
-                new RelSetToSet("M", "W", "MW")
-		};
-
-		Set<String> encodedRels = new HashSet<>();
-		for(Relation rel : rels){
-            enc = ctx.mkAnd(enc, rel.encode(program, ctx, encodedRels));
-        }
-
-        // End of the new relation encoding
-
 		for(Event e : eventsL) {
 			enc = ctx.mkAnd(enc, ctx.mkNot(edge("ii", e, e, ctx)));
 			enc = ctx.mkAnd(enc, ctx.mkNot(edge("ic", e, e, ctx)));

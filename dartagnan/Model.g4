@@ -22,7 +22,8 @@ m1=relation {$value =$m1.value;} ('|' m2=relation {$value =new RelUnion($value, 
 | m1=relation {$value =$m1.value;} ('&' m2=relation {$value =new RelInterSect($value, $m2.value);} )*
 | m1=relation {$value =$m1.value;} (';' m2=relation {$value =new RelComposition($value, $m2.value);} )*;
 relation returns [Relation value]: 
-b1=base {$value =$b1.value;} 
+b1=base {$value =$b1.value;}
+| b2=setRelation {$value =$b2.value;}
 | '(' ( m1=relation '|' {$value =$m1.value;}) ( m2=relation '|' {$value =new RelUnion($value, $m2.value);} )* m3=relation ')'{$value =new RelUnion($value, $m3.value);} 
 | '(' m1=relation '\\' m2=relation ')' {$value =new RelMinus($m1.value, $m2.value);}
 | '(' m1=relation '&' m2=relation ')' {$value =new RelInterSect($m1.value, $m2.value);}
@@ -31,7 +32,8 @@ b1=base {$value =$b1.value;}
 | m1=relation'*' {$value =new RelTransRef($m1.value);}
 ;
 
-
+setRelation returns [Relation value]:
+s1 = EVENT_SET ('*')? s2 = EVENT_SET {$value=new RelSetToSet($s1.text, $s2.text);};
 
 base returns [Relation value]: 
 PO {$value=new BasicRelation("po");}
@@ -61,21 +63,9 @@ PO {$value=new BasicRelation("po");}
 | CTRL {$value=new BasicRelation("ctrl");}
 | ISB {$value=new BasicRelation("isb");}
 | ADDR {$value=new EmptyRel();}
-| DATA {$value=new RelInterSect(new RelLocTrans(new BasicRelation("idd")), new BasicRelation("RW"));}
+| DATA {$value=new RelInterSect(new RelLocTrans(new BasicRelation("idd")), new RelSetToSet("R", "W"));}
 | n=NAME {$value=new RelDummy($n.text);}
 | EMPTY {$value=new EmptyRel();}
-| RW {$value=new BasicRelation("RW");}
-| WR {$value=new BasicRelation("WR");}
-| RR {$value=new BasicRelation("RR");}
-| WW {$value=new BasicRelation("WW");}
-| RM {$value=new BasicRelation("RM");}
-| WM {$value=new BasicRelation("WM");}
-| MR {$value=new BasicRelation("MR");}
-| MW {$value=new BasicRelation("MW");}
-| MM {$value=new BasicRelation("MM");}
-| IR {$value=new BasicRelation("IR");}
-| IW {$value=new BasicRelation("IW");}
-| IM {$value=new BasicRelation("IM");}
 | ID {$value=new BasicRelation("id");}
 ;
 
@@ -108,19 +98,18 @@ ISB : 'isb' ;
 ADDR : 'addr' ;
 DATA : 'data' ;
 ID : 'id' ;
-RW : 'R*W' ;
-WR : 'W*R' ;
-RR : 'R*R' ;
-WW : 'W*W' ;
-RM : 'R*M' ;
-WM : 'W*M' ;
-MR : 'M*R' ;
-MW : 'M*W' ;
-MM : 'M*M' ;
-IR : 'I*R' ;
-IW : 'I*W' ;
-IM : 'I*M' ;
 EMPTY : '0' ;
+
+// Event types
+EVENT_SET : ('toid(' EVENT_TYPE ')') | '[' EVENT_TYPE ']' | EVENT_TYPE;
+EVENT_TYPE : RMW | LKW | ATOMIC | READ | WRITE | INIT | MEMORY;
+RMW :       'RMW';
+LKW :       'LKW';
+ATOMIC :    'A';
+READ :      'R';
+WRITE :     'W';
+INIT :      'I';
+MEMORY :    'M';
 
 NAME : [a-z0-9\-]+ ;        // match lower-case identifiers
 MCMNAME : [A-Za-z0-9]+ ;        // match lower-case identifiers

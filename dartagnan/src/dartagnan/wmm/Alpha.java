@@ -4,6 +4,7 @@ import static dartagnan.wmm.Encodings.satAcyclic;
 import static dartagnan.wmm.Encodings.satCycle;
 import static dartagnan.wmm.Encodings.satCycleDef;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,8 +17,19 @@ public class Alpha {
 	public static BoolExpr encode(Program program, boolean approx, Context ctx) throws Z3Exception {
 		Set<Event> events = program.getEvents().stream().filter(e -> e instanceof MemEvent).collect(Collectors.toSet());
 		Set<Event> eventsL = program.getEvents().stream().filter(e -> e instanceof MemEvent || e instanceof Local).collect(Collectors.toSet());
-		
-	    BoolExpr enc = EncodingsCAT.satUnion("co", "fr", events, ctx);
+
+		// TODO: We do not actually need encodedRelations here
+		Set<String> encodedRelations = new HashSet<>();
+		Relation RW = new RelSetToSet("R", "W", "RW");
+		Relation WR = new RelSetToSet("W", "R", "WR");
+		Relation RM = new RelSetToSet("R", "M", "RM");
+		Relation WW = new RelSetToSet("W", "W", "WW");
+		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
+		enc = ctx.mkAnd(enc, WR.encode(program, ctx, encodedRelations));
+		enc = ctx.mkAnd(enc, RM.encode(program, ctx, encodedRelations));
+		enc = ctx.mkAnd(enc, WW.encode(program, ctx, encodedRelations));
+
+		enc = ctx.mkAnd(enc, EncodingsCAT.satUnion("co", "fr", events, ctx));
 	    enc = ctx.mkAnd(enc, EncodingsCAT.satUnion("com", "(co+fr)", "rf", events, ctx));
 	    enc = ctx.mkAnd(enc, EncodingsCAT.satUnion("poloc", "com", events, ctx));
 	    enc = ctx.mkAnd(enc, EncodingsCAT.satUnion("com-alpha", "(co+fr)", "rfe", events, ctx));

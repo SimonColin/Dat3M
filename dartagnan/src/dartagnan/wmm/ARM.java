@@ -16,6 +16,7 @@ import static dartagnan.wmm.EncodingsCAT.satTransIDL;
 import static dartagnan.wmm.EncodingsCAT.satTransRefIDL;
 
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,8 +35,17 @@ public class ARM {
 	public static BoolExpr encode(Program program, boolean approx, boolean idl, Context ctx) throws Z3Exception {
 		Set<Event> events = program.getEvents().stream().filter(e -> e instanceof MemEvent).collect(Collectors.toSet());
 		Set<Event> eventsL = program.getEvents().stream().filter(e -> e instanceof MemEvent || e instanceof Local).collect(Collectors.toSet());
-		
-		BoolExpr enc = satUnion("co", "fr", events, ctx);
+
+		// TODO: We do not actually need encodedRelations here
+		Set<String> encodedRelations = new HashSet<>();
+		Relation RW = new RelSetToSet("R", "W", "RW");
+		Relation RM = new RelSetToSet("R", "M", "RM");
+		Relation WW = new RelSetToSet("W", "W", "WW");
+		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
+		enc = ctx.mkAnd(enc, RM.encode(program, ctx, encodedRelations));
+		enc = ctx.mkAnd(enc, WW.encode(program, ctx, encodedRelations));
+
+		enc = ctx.mkAnd(enc, satUnion("co", "fr", events, ctx));
 		enc = ctx.mkAnd(enc, satUnion("com", "(co+fr)", "rf", events, ctx));
 		enc = ctx.mkAnd(enc, satUnion("poloc", "com", events, ctx));
 		
