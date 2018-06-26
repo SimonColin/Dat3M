@@ -38,18 +38,18 @@ relation returns [Relation value]:
 ;
 
 setRelation returns [Relation value]:
-s1 = EVENT_SET ('*')? s2 = EVENT_SET {$value=new RelSetToSet($s1.text, $s2.text);};
+s1 = eventType ('*')? s2 = eventType {$value=new RelSetToSet($s1.value, $s2.value);};
 
 relToSetRelation returns [Relation value]:
-r = fancyrel ';' s = EVENT_SET {$value = new RelRelToSet($r.value, $s.text); children.add($value); };
+r = fancyrel ';' s = eventType {$value = new RelRelToSet($r.value, $s.value); children.add($value); };
 
 setToRelRelation returns [Relation value]:
-s = EVENT_SET (';' r = relToSetRelation)+ {
+s = eventType (';' r = relToSetRelation)+ {
     Relation child = children.remove(0);
     while(!children.isEmpty()){
        child = new RelComposition(child, children.remove(0));
     }
-    $value = new RelSetToRel($s.text, child);
+    $value = new RelSetToRel($s.value, child);
     children.clear();
 };
 
@@ -87,6 +87,46 @@ PO {$value=new BasicRelation("po");}
 | ID {$value=new BasicRelation("id");}
 ;
 
+eventType returns [String value]
+    :   'toid(' t = EVENT_TYPE ')' {$value = $t.text; }
+    |   '[' t = EVENT_TYPE ']' {$value = $t.text; }
+    |   t = EVENT_TYPE {$value = $t.text; }
+    |   'toid(' t2 = atomics ')' {$value = $t2.value;}
+    |   '[' t2 = atomics ']' {$value = $t2.value;}
+    |   t2 = atomics {$value = $t2.value;}
+    ;
+
+atomics returns [String value]
+    :   a1 = sc {$value = $a1.value; }
+    |   a2 = relAqc {$value = $a2.value; }
+    |   a3 = release {$value = $a3.value; }
+    |   a4 = acquire {$value = $a4.value; }
+    |   a5 = cons {$value = $a5.value; }
+    |   a6 = relaxed {$value = $a6.value; }
+    |   a7 = nonAtomic {$value = $a7.value; }
+    ;
+
+sc returns [String value]:
+v=SC {$value = "_sc";};
+
+relAqc returns [String value]:
+v=REL_ACQ {$value = "_rel_acq";};
+
+release returns [String value]:
+v=RELEASE {$value = "_rel";};
+
+acquire returns [String value]:
+v=ACQUIRE {$value = "_acq";};
+
+cons returns [String value]:
+v=CONSUME {$value = "_con";};
+
+relaxed returns [String value]:
+v=RELAXED {$value = "_rx";};
+
+nonAtomic returns [String value]:
+v=NON_ATOMIC {$value = "_na";};
+
 PO : 'po' ;
 POLOC : 'po-loc' ;
 RFE : 'rfe' ;
@@ -119,7 +159,6 @@ ID : 'id' ;
 EMPTY : '0' ;
 
 // Event types
-EVENT_SET : ('toid(' EVENT_TYPE ')') | '[' EVENT_TYPE ']' | EVENT_TYPE;
 EVENT_TYPE : RMW | LKW | ATOMIC | READ | WRITE | INIT | MEMORY;
 RMW :       'RMW';
 LKW :       'LKW';
@@ -128,6 +167,43 @@ READ :      'R';
 WRITE :     'W';
 INIT :      'I';
 MEMORY :    'M';
+
+
+// Atomics
+SC
+    :   'SC'
+    |   '_sc'
+    |   'seq_cst'
+    ;
+
+REL_ACQ
+    :   'REL_AQC'
+    ;
+
+RELEASE
+    :   'REL'
+    |   '_rel'
+    ;
+
+ACQUIRE
+    :   'ACQ'
+    |   '_acq'
+    |   'Acquire'
+    ;
+
+CONSUME
+    :   'CON'
+    ;
+
+RELAXED
+    :   'RX'
+    |   '_rx'
+    ;
+
+NON_ATOMIC
+    :   'NA'
+    |   '_na'
+    ;
 
 NAME : [a-z0-9\-]+ ;        // match lower-case identifiers
 MCMNAME : [A-Za-z0-9]+ ;        // match lower-case identifiers

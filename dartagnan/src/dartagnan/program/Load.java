@@ -23,6 +23,11 @@ public class Load extends MemEvent {
 		this.loc = loc;
 		this.condLevel = 0;
 	}
+
+	public Load(Register reg, Location loc, String atomic){
+		this(reg, loc);
+		this.atomic = atomic;
+	}
 	
 	public Register getReg() {
 		return reg;

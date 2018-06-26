@@ -26,11 +26,21 @@ public class Store extends MemEvent {
 		this.condLevel = 0;
 	}
 
+	public Store(Location loc, Register reg, String atomic) {
+		this(loc, reg);
+		this.atomic = atomic;
+	}
+
 	public Store(Location loc, AConst val) {
 		type.add(EVENT_TYPE_WRITE);
 		this.val = val;
 		this.loc = loc;
 		this.condLevel = 0;
+	}
+
+	public Store(Location loc, AConst val, String atomic){
+		this(loc, val);
+		this.atomic = atomic;
 	}
 	
 	public Register getReg() {

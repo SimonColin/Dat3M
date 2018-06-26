@@ -15,7 +15,6 @@ public class Write extends MemEvent {
 
 	private AConst val;
 	private Register reg;
-	private String atomic;
 	
 	public Write(Location loc, Register reg, String atomic) {
 		type.add(EVENT_TYPE_WRITE);
@@ -76,9 +75,9 @@ public class Write extends MemEvent {
 	public Thread compile(String target, boolean ctrl, boolean leading) {
         Store st;
 	    if(reg != null){
-            st = new Store(loc, reg);
+            st = new Store(loc, reg, atomic);
         } else {
-            st = new Store(loc, val);
+            st = new Store(loc, val, atomic);
         }
 		st.setHLId(memId);
 		st.setUnfCopy(getUnfCopy());
@@ -139,9 +138,9 @@ public class Write extends MemEvent {
 	public Thread optCompile(String target, boolean ctrl, boolean leading) {
         Store st;
         if(reg != null){
-            st = new Store(loc, reg);
+            st = new Store(loc, reg, atomic);
         } else {
-            st = new Store(loc, val);
+            st = new Store(loc, val, atomic);
         }
 		st.setHLId(hashCode());
 		st.condLevel = this.condLevel;
@@ -172,9 +171,9 @@ public class Write extends MemEvent {
 	public Thread allCompile() {
         Store st;
         if(reg != null){
-            st = new Store(loc, reg);
+            st = new Store(loc, reg, atomic);
         } else {
-            st = new Store(loc, val);
+            st = new Store(loc, val, atomic);
         }
 		st.setHLId(hashCode());
 		st.condLevel = this.condLevel;

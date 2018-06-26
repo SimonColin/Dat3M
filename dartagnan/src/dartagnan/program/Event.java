@@ -30,6 +30,7 @@ public class Event extends Thread {
 
 	private Set<Register> condReg;
 	protected LastModMap lastModMap;
+	protected String atomic;
 
 	protected List<String> type = new ArrayList<String>();
 	
@@ -37,7 +38,8 @@ public class Event extends Thread {
 
 	public boolean filter(String param){
 		return param.equals(EVENT_TYPE_ANY)
-                || type.indexOf(param) > -1;
+                || type.indexOf(param) > -1
+				||	param.equals(this.atomic);
 	}
 	
 	public Integer getEId() {

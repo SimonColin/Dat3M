@@ -13,7 +13,6 @@ import dartagnan.utils.Pair;
 public class Read extends MemEvent {
 
 	private Register reg;
-	private String atomic;
 	
 	public Read(Register reg, Location loc, String atomic) {
 		type.add(EVENT_TYPE_READ);
@@ -55,7 +54,7 @@ public class Read extends MemEvent {
 	}
 
 	public Thread compile(String target, boolean ctrl, boolean leading) {
-		Load ld = new Load(reg, loc);
+		Load ld = new Load(reg, loc, atomic);
 		ld.setHLId(memId);
 		ld.setUnfCopy(getUnfCopy());
 		ld.condLevel = this.condLevel;
@@ -97,7 +96,7 @@ public class Read extends MemEvent {
 	}
 	
 	public Thread optCompile(boolean ctrl, boolean leading) {
-		Load ld = new Load(reg, loc);
+		Load ld = new Load(reg, loc, atomic);
 		ld.setHLId(hashCode());
 		ld.condLevel = this.condLevel;
 
