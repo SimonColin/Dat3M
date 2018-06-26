@@ -2,6 +2,8 @@
 
 package dartagnan;
 import dartagnan.wmm.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

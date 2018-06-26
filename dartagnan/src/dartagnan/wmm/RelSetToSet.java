@@ -11,12 +11,21 @@ import static dartagnan.utils.Utils.edge;
 
 public class RelSetToSet extends SetRelation{
 
-    public RelSetToSet(String type1, String type2, String name) {
-        super(type1, type2, name, type1 + type2);
+    protected String type1;
+    protected String type2;
+
+    public RelSetToSet(String type1, String type2, String name, String term) {
+        super(name, term);
+        this.type1 = type1;
+        this.type2 = type2;
+    }
+
+    public RelSetToSet(String type1, String type2, String term) {
+        this(type1, type2, type1 + type2, term);
     }
 
     public RelSetToSet(String type1, String type2) {
-        super(type1, type2, type1 + type2);
+        this(type1, type2, type1 + type2);
     }
 
     protected BoolExpr encodeBasic(Program program, Context ctx) throws Z3Exception{

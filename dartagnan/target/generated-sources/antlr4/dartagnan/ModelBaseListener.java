@@ -2,6 +2,8 @@
 
 package dartagnan;
 import dartagnan.wmm.*;
+import java.util.List;
+import java.util.ArrayList;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -86,6 +88,30 @@ public class ModelBaseListener implements ModelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSetRelation(ModelParser.SetRelationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRelToSetRelation(ModelParser.RelToSetRelationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRelToSetRelation(ModelParser.RelToSetRelationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSetToRelRelation(ModelParser.SetToRelRelationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSetToRelRelation(ModelParser.SetToRelRelationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

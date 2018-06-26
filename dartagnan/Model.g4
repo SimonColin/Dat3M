@@ -3,10 +3,12 @@ grammar Model;
 @header{
 package dartagnan;
 import dartagnan.wmm.*;
+import java.util.List;
+import java.util.ArrayList;
 }
 @parser::members
 {
-String test="test";
+ArrayList<Relation> children = new ArrayList<Relation>();
 }
 mcm returns [Wmm value]: {$value =  new Wmm();}  
 MCMNAME? (ax1=axiom {$value.addAxiom($ax1.value);} | r1=reldef {$value.addRel($r1.value);})+ 
@@ -20,20 +22,36 @@ reldef returns [Relation value]:
 fancyrel returns [Relation value]:
 m1=relation {$value =$m1.value;} ('|' m2=relation {$value =new RelUnion($value, $m2.value);} )*
 | m1=relation {$value =$m1.value;} ('&' m2=relation {$value =new RelInterSect($value, $m2.value);} )*
-| m1=relation {$value =$m1.value;} (';' m2=relation {$value =new RelComposition($value, $m2.value);} )*;
-relation returns [Relation value]: 
-b1=base {$value =$b1.value;}
-| b2=setRelation {$value =$b2.value;}
+| m1=relation {$value =$m1.value;} (';' m2=relation { $value = new RelComposition($value, $m2.value);} )*
+| s1=setToRelRelation {$value = $s1.value; }
+;
+
+relation returns [Relation value]:
+| b1=base {$value =$b1.value;}
+| s1=setRelation {$value =$s1.value;}
 | '(' ( m1=relation '|' {$value =$m1.value;}) ( m2=relation '|' {$value =new RelUnion($value, $m2.value);} )* m3=relation ')'{$value =new RelUnion($value, $m3.value);} 
 | '(' m1=relation '\\' m2=relation ')' {$value =new RelMinus($m1.value, $m2.value);}
 | '(' m1=relation '&' m2=relation ')' {$value =new RelInterSect($m1.value, $m2.value);}
-| '(' ( m1=relation ';' {$value =$m1.value;}) ( m2=relation ';' {$value =new RelComposition($value, $m2.value);} )* m3=relation ')'{$value =new RelComposition($value, $m3.value);} 
+| '(' ( m1=relation ';' {$value =$m1.value;}) ( m2=relation ';' {System.out.println("relComposition 2"); $value =new RelComposition($value, $m2.value);} )* m3=relation ')'{System.out.println("relComposition 3"); $value =new RelComposition($value, $m3.value);}
 | m1=relation'+' {$value =new RelTrans($m1.value);}
 | m1=relation'*' {$value =new RelTransRef($m1.value);}
 ;
 
 setRelation returns [Relation value]:
 s1 = EVENT_SET ('*')? s2 = EVENT_SET {$value=new RelSetToSet($s1.text, $s2.text);};
+
+relToSetRelation returns [Relation value]:
+r = fancyrel ';' s = EVENT_SET {$value = new RelRelToSet($r.value, $s.text); children.add($value); };
+
+setToRelRelation returns [Relation value]:
+s = EVENT_SET (';' r = relToSetRelation)+ {
+    Relation child = children.remove(0);
+    while(!children.isEmpty()){
+       child = new RelComposition(child, children.remove(0));
+    }
+    $value = new RelSetToRel($s.text, child);
+    children.clear();
+};
 
 base returns [Relation value]: 
 PO {$value=new BasicRelation("po");}

@@ -2,6 +2,8 @@
 
 package dartagnan;
 import dartagnan.wmm.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -70,6 +72,26 @@ public interface ModelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSetRelation(ModelParser.SetRelationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ModelParser#relToSetRelation}.
+	 * @param ctx the parse tree
+	 */
+	void enterRelToSetRelation(ModelParser.RelToSetRelationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#relToSetRelation}.
+	 * @param ctx the parse tree
+	 */
+	void exitRelToSetRelation(ModelParser.RelToSetRelationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ModelParser#setToRelRelation}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetToRelRelation(ModelParser.SetToRelRelationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#setToRelRelation}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetToRelRelation(ModelParser.SetToRelRelationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ModelParser#base}.
 	 * @param ctx the parse tree
