@@ -2,6 +2,7 @@
 
 package dartagnan;
 import dartagnan.wmm.*;
+import dartagnan.program.event.filter.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -129,6 +130,18 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComplexEventType(ModelParser.ComplexEventTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComplexEventType(ModelParser.ComplexEventTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEventType(ModelParser.EventTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -136,6 +149,18 @@ public class ModelBaseListener implements ModelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEventType(ModelParser.EventTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEventTypeComposite(ModelParser.EventTypeCompositeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEventTypeComposite(ModelParser.EventTypeCompositeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

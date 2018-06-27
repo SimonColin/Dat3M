@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.microsoft.z3.*;
 
 import dartagnan.program.*;
+import dartagnan.program.event.filter.FilterBasic;
 
 public class PSO {
 	
@@ -19,7 +20,7 @@ public class PSO {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RM = new RelSetToSet("R", "M", "RM");
+		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
 		BoolExpr enc = RM.encode(program, ctx, encodedRelations);
 
 		enc = ctx.mkAnd(enc, EncodingsCAT.satUnion("co", "fr", events, ctx));

@@ -5,27 +5,29 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.Z3Exception;
 import dartagnan.program.Event;
 import dartagnan.program.Program;
+import dartagnan.program.event.filter.FilterInterface;
+
 import java.util.Set;
 
 import static dartagnan.utils.Utils.edge;
 
 public class RelSetToSet extends SetRelation{
 
-    protected String type1;
-    protected String type2;
+    protected FilterInterface filter1;
+    protected FilterInterface filter2;
 
-    public RelSetToSet(String type1, String type2, String name, String term) {
+    public RelSetToSet(FilterInterface filter1, FilterInterface filter2, String name, String term) {
         super(name, term);
-        this.type1 = type1;
-        this.type2 = type2;
+        this.filter1 = filter1;
+        this.filter2 = filter2;
     }
 
-    public RelSetToSet(String type1, String type2, String term) {
-        this(type1, type2, type1 + type2, term);
+    public RelSetToSet(FilterInterface filter1, FilterInterface filter2, String term) {
+        this(filter1, filter2, filter1.toString() + filter2.toString(), term);
     }
 
-    public RelSetToSet(String type1, String type2) {
-        this(type1, type2, type1 + type2);
+    public RelSetToSet(FilterInterface filter1, FilterInterface filter2) {
+        this(filter1, filter2, filter1.toString() + filter2.toString());
     }
 
     protected BoolExpr encodeBasic(Program program, Context ctx) throws Z3Exception{
@@ -33,7 +35,7 @@ public class RelSetToSet extends SetRelation{
         Set<Event> events = program.getEvents();
         for (Event e1 : events) {
             for (Event e2 : events) {
-                if(e1.filter(type1) && e2.filter(type2)){
+                if(filter1.filter(e1) && filter2.filter(e2)){
                     enc = ctx.mkAnd(enc, edge(this.getName(), e1, e2, ctx));
                 } else {
                     enc = ctx.mkAnd(enc, ctx.mkNot(edge(this.getName(), e1, e2, ctx)));

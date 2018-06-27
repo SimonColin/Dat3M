@@ -2,6 +2,7 @@
 
 package dartagnan;
 import dartagnan.wmm.*;
+import dartagnan.program.event.filter.*;
 import java.util.List;
 import java.util.ArrayList;
 

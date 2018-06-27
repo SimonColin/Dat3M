@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.microsoft.z3.*;
 
 import dartagnan.program.*;
+import dartagnan.program.event.filter.FilterBasic;
 
 public class Alpha {
 	
@@ -20,10 +21,10 @@ public class Alpha {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RW = new RelSetToSet("R", "W", "RW");
-		Relation WR = new RelSetToSet("W", "R", "WR");
-		Relation RM = new RelSetToSet("R", "M", "RM");
-		Relation WW = new RelSetToSet("W", "W", "WW");
+		Relation RW = new RelSetToSet(new FilterBasic("R"), new FilterBasic("W"), "RW");
+		Relation WR = new RelSetToSet(new FilterBasic("W"), new FilterBasic("R"), "WR");
+		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
+		Relation WW = new RelSetToSet(new FilterBasic("W"), new FilterBasic("W"), "WW");
 		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
 		enc = ctx.mkAnd(enc, WR.encode(program, ctx, encodedRelations));
 		enc = ctx.mkAnd(enc, RM.encode(program, ctx, encodedRelations));

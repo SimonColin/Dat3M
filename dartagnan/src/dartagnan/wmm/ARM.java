@@ -28,6 +28,7 @@ import dartagnan.program.Event;
 import dartagnan.program.Local;
 import dartagnan.program.MemEvent;
 import dartagnan.program.Program;
+import dartagnan.program.event.filter.FilterBasic;
 import dartagnan.utils.Utils;
 
 public class ARM {
@@ -38,9 +39,9 @@ public class ARM {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RW = new RelSetToSet("R", "W", "RW");
-		Relation RM = new RelSetToSet("R", "M", "RM");
-		Relation WW = new RelSetToSet("W", "W", "WW");
+		Relation RW = new RelSetToSet(new FilterBasic("R"), new FilterBasic("W"), "RW");
+		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
+		Relation WW = new RelSetToSet(new FilterBasic("W"), new FilterBasic("W"), "WW");
 		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
 		enc = ctx.mkAnd(enc, RM.encode(program, ctx, encodedRelations));
 		enc = ctx.mkAnd(enc, WW.encode(program, ctx, encodedRelations));

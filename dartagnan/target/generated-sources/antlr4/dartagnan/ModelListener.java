@@ -2,6 +2,7 @@
 
 package dartagnan;
 import dartagnan.wmm.*;
+import dartagnan.program.event.filter.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -103,6 +104,16 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitBase(ModelParser.BaseContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ModelParser#complexEventType}.
+	 * @param ctx the parse tree
+	 */
+	void enterComplexEventType(ModelParser.ComplexEventTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#complexEventType}.
+	 * @param ctx the parse tree
+	 */
+	void exitComplexEventType(ModelParser.ComplexEventTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ModelParser#eventType}.
 	 * @param ctx the parse tree
 	 */
@@ -112,6 +123,16 @@ public interface ModelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEventType(ModelParser.EventTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ModelParser#eventTypeComposite}.
+	 * @param ctx the parse tree
+	 */
+	void enterEventTypeComposite(ModelParser.EventTypeCompositeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#eventTypeComposite}.
+	 * @param ctx the parse tree
+	 */
+	void exitEventTypeComposite(ModelParser.EventTypeCompositeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ModelParser#atomics}.
 	 * @param ctx the parse tree

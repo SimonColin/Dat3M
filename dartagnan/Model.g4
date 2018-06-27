@@ -3,6 +3,7 @@ grammar Model;
 @header{
 package dartagnan;
 import dartagnan.wmm.*;
+import dartagnan.program.event.filter.*;
 import java.util.List;
 import java.util.ArrayList;
 }
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 {
 ArrayList<Relation> children = new ArrayList<Relation>();
 }
-mcm returns [Wmm value]: {$value =  new Wmm();}  
-MCMNAME? (ax1=axiom {$value.addAxiom($ax1.value);} | r1=reldef {$value.addRel($r1.value);})+ 
+mcm returns [Wmm value]: {$value =  new Wmm();}
+MCMNAME? (ax1=axiom {$value.addAxiom($ax1.value);} | r1=reldef {$value.addRel($r1.value);})+
 ;
 
 axiom returns [Axiom value]: 'acyclic' m1=fancyrel  {$value =  new Acyclic($m1.value);} ('as' NAME)?| 'irreflexive' m1=fancyrel {$value =  new Irreflexive($m1.value);}('as' NAME)?;
@@ -29,31 +30,31 @@ m1=relation {$value =$m1.value;} ('|' m2=relation {$value =new RelUnion($value, 
 relation returns [Relation value]:
 | b1=base {$value =$b1.value;}
 | s1=setRelation {$value =$s1.value;}
-| '(' ( m1=relation '|' {$value =$m1.value;}) ( m2=relation '|' {$value =new RelUnion($value, $m2.value);} )* m3=relation ')'{$value =new RelUnion($value, $m3.value);} 
+| '(' ( m1=relation '|' {$value =$m1.value;}) ( m2=relation '|' {$value =new RelUnion($value, $m2.value);} )* m3=relation ')'{$value =new RelUnion($value, $m3.value);}
 | '(' m1=relation '\\' m2=relation ')' {$value =new RelMinus($m1.value, $m2.value);}
 | '(' m1=relation '&' m2=relation ')' {$value =new RelInterSect($m1.value, $m2.value);}
-| '(' ( m1=relation ';' {$value =$m1.value;}) ( m2=relation ';' {System.out.println("relComposition 2"); $value =new RelComposition($value, $m2.value);} )* m3=relation ')'{System.out.println("relComposition 3"); $value =new RelComposition($value, $m3.value);}
+| '(' ( m1=relation ';' {$value =$m1.value;}) ( m2=relation ';' { $value =new RelComposition($value, $m2.value);} )* m3=relation ')'{ $value =new RelComposition($value, $m3.value);}
 | m1=relation'+' {$value =new RelTrans($m1.value);}
 | m1=relation'*' {$value =new RelTransRef($m1.value);}
 ;
 
 setRelation returns [Relation value]:
-s1 = eventType ('*')? s2 = eventType {$value=new RelSetToSet($s1.value, $s2.value);};
+s1 = complexEventType ('*')? s2 = complexEventType {$value=new RelSetToSet($s1.filter, $s2.filter);};
 
 relToSetRelation returns [Relation value]:
-r = fancyrel ';' s = eventType {$value = new RelRelToSet($r.value, $s.value); children.add($value); };
+r = fancyrel ';' s = complexEventType {$value = new RelRelToSet($r.value, $s.filter); children.add($value); };
 
 setToRelRelation returns [Relation value]:
-s = eventType (';' r = relToSetRelation)+ {
+s = complexEventType (';' r = relToSetRelation)+ {
     Relation child = children.remove(0);
     while(!children.isEmpty()){
        child = new RelComposition(child, children.remove(0));
     }
-    $value = new RelSetToRel($s.value, child);
+    $value = new RelSetToRel($s.filter, child);
     children.clear();
 };
 
-base returns [Relation value]: 
+base returns [Relation value]:
 PO {$value=new BasicRelation("po");}
 | POLOC {$value=new BasicRelation("poloc");}
 | RFE {$value=new BasicRelation("rfe");}
@@ -81,19 +82,30 @@ PO {$value=new BasicRelation("po");}
 | CTRL {$value=new BasicRelation("ctrl");}
 | ISB {$value=new BasicRelation("isb");}
 | ADDR {$value=new EmptyRel();}
-| DATA {$value=new RelInterSect(new RelLocTrans(new BasicRelation("idd")), new RelSetToSet("R", "W"));}
+| DATA {$value=new RelInterSect(new RelLocTrans(new BasicRelation("idd")), new RelSetToSet(new FilterBasic("R"), new FilterBasic("W")));}
 | n=NAME {$value=new RelDummy($n.text);}
 | EMPTY {$value=new EmptyRel();}
 | ID {$value=new BasicRelation("id");}
 ;
 
-eventType returns [String value]
-    :   'toid(' t = EVENT_TYPE ')' {$value = $t.text; }
-    |   '[' t = EVENT_TYPE ']' {$value = $t.text; }
-    |   t = EVENT_TYPE {$value = $t.text; }
-    |   'toid(' t2 = atomics ')' {$value = $t2.value;}
-    |   '[' t2 = atomics ']' {$value = $t2.value;}
-    |   t2 = atomics {$value = $t2.value;}
+complexEventType returns [FilterInterface filter]
+    :   f1 = eventType {$filter = $f1.filter;}
+    |   f2 = eventTypeComposite {$filter = $f2.filter;}
+    ;
+
+eventType returns [FilterInterface filter]
+    :   'toid(' t = EVENT_TYPE ')' {$filter = new FilterBasic($t.text); }
+    |   '[' t = EVENT_TYPE ']' {$filter = new FilterBasic($t.text); }
+    |   t = EVENT_TYPE {$filter = new FilterBasic($t.text); }
+    |   'toid(' t2 = atomics ')' {$filter = new FilterBasic($t2.text);}
+    |   '[' t2 = atomics ']' {$filter = new FilterBasic($t2.text);}
+    |   t2 = atomics {$filter = new FilterBasic($t2.text);}
+    ;
+
+eventTypeComposite returns [FilterInterface filter]
+    :   '[' f1 = complexEventType '&' f2 = complexEventType ']' {$filter = new FilterIntersection($f1.filter, $f2.filter);}
+    |   '[' f1 = complexEventType '|' f2 = complexEventType ']' {$filter = new FilterUnion($f1.filter, $f2.filter);}
+    |   '[' f1 = complexEventType '\\' f2 = complexEventType ']' {$filter = new FilterDifference($f1.filter, $f2.filter);}
     ;
 
 atomics returns [String value]

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.microsoft.z3.*;
 
 import dartagnan.program.*;
+import dartagnan.program.event.filter.FilterBasic;
 
 public class TSO {
 	
@@ -21,7 +22,7 @@ public class TSO {
 
         // TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation WR = new RelSetToSet("W", "R", "WR");
+		Relation WR = new RelSetToSet(new FilterBasic("W"), new FilterBasic("R"), "WR");
         BoolExpr enc = WR.encode(program, ctx, encodedRelations);
 
 		enc = ctx.mkAnd(enc, satUnion("co", "fr", events, ctx));
