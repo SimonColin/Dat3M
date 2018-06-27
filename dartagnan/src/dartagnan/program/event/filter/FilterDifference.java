@@ -2,7 +2,7 @@ package dartagnan.program.event.filter;
 
 import dartagnan.program.Event;
 
-public class FilterDifference implements FilterInterface {
+public class FilterDifference extends FilterAbstract implements FilterInterface {
 
     private FilterInterface filterPresent;
     private FilterInterface filterAbsent;
@@ -17,6 +17,8 @@ public class FilterDifference implements FilterInterface {
     }
 
     public String toString(){
-        return filterPresent + "\\" + filterAbsent;
+        return ((filterPresent instanceof FilterBasic) ? filterPresent : "( " + filterPresent + " )")
+                + " \\ "
+                + ((filterAbsent instanceof FilterBasic) ? filterAbsent : "( " + filterAbsent + " )");
     }
 }

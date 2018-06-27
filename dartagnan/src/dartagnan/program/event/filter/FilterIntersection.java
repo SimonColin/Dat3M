@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class FilterIntersection implements FilterInterface{
+public class FilterIntersection extends FilterAbstract implements FilterInterface{
 
     private List<FilterInterface> filters = new ArrayList<FilterInterface>();
 
@@ -32,7 +32,7 @@ public class FilterIntersection implements FilterInterface{
 
     public String toString(){
         return filters.stream()
-                .map(f -> (f instanceof FilterBasic) ? f.toString() : "[ " + f.toString() + " ]")
-                .collect(Collectors.joining(" && "));
+                .map(f -> (f instanceof FilterBasic) ? f.toString() : "( " + f.toString() + " )")
+                .collect(Collectors.joining(" & "));
     }
 }

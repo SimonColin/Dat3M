@@ -44,6 +44,16 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitReldef(ModelParser.ReldefContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ModelParser#filterdef}.
+	 * @param ctx the parse tree
+	 */
+	void enterFilterdef(ModelParser.FilterdefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#filterdef}.
+	 * @param ctx the parse tree
+	 */
+	void exitFilterdef(ModelParser.FilterdefContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ModelParser#fancyrel}.
 	 * @param ctx the parse tree
 	 */
@@ -104,16 +114,6 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitBase(ModelParser.BaseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#complexEventType}.
-	 * @param ctx the parse tree
-	 */
-	void enterComplexEventType(ModelParser.ComplexEventTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#complexEventType}.
-	 * @param ctx the parse tree
-	 */
-	void exitComplexEventType(ModelParser.ComplexEventTypeContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link ModelParser#eventType}.
 	 * @param ctx the parse tree
 	 */
@@ -124,15 +124,15 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitEventType(ModelParser.EventTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#eventTypeComposite}.
+	 * Enter a parse tree produced by {@link ModelParser#basicEvent}.
 	 * @param ctx the parse tree
 	 */
-	void enterEventTypeComposite(ModelParser.EventTypeCompositeContext ctx);
+	void enterBasicEvent(ModelParser.BasicEventContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#eventTypeComposite}.
+	 * Exit a parse tree produced by {@link ModelParser#basicEvent}.
 	 * @param ctx the parse tree
 	 */
-	void exitEventTypeComposite(ModelParser.EventTypeCompositeContext ctx);
+	void exitBasicEvent(ModelParser.BasicEventContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ModelParser#atomics}.
 	 * @param ctx the parse tree

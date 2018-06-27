@@ -2,7 +2,7 @@ package dartagnan.program.event.filter;
 
 import dartagnan.program.Event;
 
-public class FilterBasic implements FilterInterface {
+public class FilterBasic extends FilterAbstract implements FilterInterface {
 
     private String param;
 

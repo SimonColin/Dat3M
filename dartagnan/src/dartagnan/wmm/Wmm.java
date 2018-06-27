@@ -10,7 +10,11 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.Z3Exception;
 import dartagnan.program.Event;
 import dartagnan.program.Program;
+import dartagnan.program.event.filter.FilterInterface;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +26,7 @@ public class Wmm {
 
     protected ArrayList<Axiom> axioms = new ArrayList<>();
     private final ArrayList<Relation> namedrels = new ArrayList<>();
+    protected Map<String, FilterInterface> filters = new HashMap<String, FilterInterface>();
 
     public void addAxiom(Axiom ax) {
         axioms.add(ax);
@@ -30,6 +35,15 @@ public class Wmm {
     public void addRel(Relation rel) {
         namedrels.add(rel);
     }
+
+    public void addFilter(FilterInterface filter) {
+        filters.put(filter.getName(), filter);
+    }
+
+    public FilterInterface getFilter(String name){
+        return filters.get(name);
+    }
+
     /**
      * Encodes  all relations in the model according to the predicate and approximate settings.
      * @param program

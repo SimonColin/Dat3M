@@ -58,6 +58,18 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFilterdef(ModelParser.FilterdefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFilterdef(ModelParser.FilterdefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFancyrel(ModelParser.FancyrelContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -130,18 +142,6 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComplexEventType(ModelParser.ComplexEventTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitComplexEventType(ModelParser.ComplexEventTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterEventType(ModelParser.EventTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -154,13 +154,13 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEventTypeComposite(ModelParser.EventTypeCompositeContext ctx) { }
+	@Override public void enterBasicEvent(ModelParser.BasicEventContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEventTypeComposite(ModelParser.EventTypeCompositeContext ctx) { }
+	@Override public void exitBasicEvent(ModelParser.BasicEventContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
