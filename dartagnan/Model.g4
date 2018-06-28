@@ -32,27 +32,19 @@ filterdef returns [FilterInterface value]:
 'let' n=NAME '=' s1=eventFilter {$value = $s1.filter; $value.setName($n.text); };
 
 
+// TODO: Explicitly test object type for fancyrels which cannot have filter as a parameter
 fancyrel returns [Relation value] locals [Object object]
-: m1=identifier {$object = $m1.value; } ('|' m2=identifier {
-        if($value == null){
-            $value =new RelUnion((Relation)$object, (Relation)$m2.value);
-        } else {
+: m1=identifier {$value = (Relation)$m1.value;} ('|' m2=identifier{
             $value =new RelUnion($value, (Relation)$m2.value);
-        }})*
+        })*
 
-| m1=identifier {$object = $m1.value; } ('&' m2=identifier{
-        if($value == null){
-            $value =new RelInterSect((Relation)$object, (Relation)$m2.value);
-        } else {
+| m1=identifier {$value = (Relation)$m1.value;} ('&' m2=identifier{
             $value =new RelInterSect($value, (Relation)$m2.value);
-        }})*
+        })*
 
-| m1=identifier {$object = $m1.value; } ('\\' m2=identifier{
-        if($value == null){
-            $value =new RelMinus((Relation)$object, (Relation)$m2.value);
-        } else {
+| m1=identifier {$value = (Relation)$m1.value;} ('\\' m2=identifier{
             $value =new RelMinus($value, (Relation)$m2.value);
-        }})*
+        })*
 
 | m1=identifier (';' m2=identifier
     {
@@ -81,8 +73,17 @@ fancyrel returns [Relation value] locals [Object object]
 ;
 
 identifier returns [Object value]
-    :   r = relation {$value = $r.value;}
+    :   r = relation '*' {$value =new RelTransRef($r.value);}
+    |   r = relation '+' {$value =new RelTransRef($r.value);}
+    |   r = relation {$value = $r.value;}
     |   f = eventFilter {$value = $f.filter;}
+    |   s = NAME '*' {
+            $value = wmm.getRelation($s.text);
+            if($value == null){
+                throw new RuntimeException("Identifier " + $s.text + " must be initialised to a relation");
+            }
+            $value =new RelTransRef((Relation)$value);
+        }
     |   s = NAME {
             $value = wmm.getRelation($s.text);
             if($value == null){
@@ -95,11 +96,11 @@ identifier returns [Object value]
     ;
 
 relation returns [Relation value]:
-| b1=base {$value =$b1.value;}
-| s1=filterRelation {$value =$s1.value;}
 | m1=relation'+' {$value =new RelTrans($m1.value);}
 | m1=relation'*' {$value =new RelTransRef($m1.value);}
-| '(' r1=fancyrel ')' {$value = $r1.value; }
+| b1=base {$value =$b1.value;}
+| s1=filterRelation {$value =$s1.value;}
+| '(' r1=fancyrel ')' {$value = $r1.value;}
 ;
 
 filterRelation returns [Relation value]:
@@ -203,27 +204,33 @@ PO {$value=new BasicRelation("po");}
 | ISB {$value=new BasicRelation("isb");}
 | ADDR {$value=new EmptyRel();}
 | DATA {$value=new RelInterSect(new RelLocTrans(new BasicRelation("idd")), new RelSetToSet(new FilterBasic("R"), new FilterBasic("W")));}
+| INT {$value=new BasicRelation("int");}
+| EXT {$value=new BasicRelation("ext");}
+/*| II {$value=new BasicRelation("ii");}
+| IC {$value=new BasicRelation("ic");}
+| CI {$value=new BasicRelation("ci");}
+| CC {$value=new BasicRelation("cc");}*/
 | EMPTY {$value=new EmptyRel();}
 | ID {$value=new BasicRelation("id");}
 ;
 
 PO : 'po' ;
-POLOC : 'po-loc' ;
+POLOC : 'po-loc' | 'poloc';
 RFE : 'rfe' ;
 RFI : 'rfi' ;
 RF : 'rf' ;
-FR : 'fr' ;
 FRE : 'fre' ;
 FRI : 'fri' ;
-CO : 'co' ;
+FR : 'fr' ;
 COE : 'coe' ;
 COI : 'coi' ;
-AD : 'ad' ;
+CO : 'co' ;
+AD : 'ad' ;                 // po
 IDD : 'idd' ;
 ISH : 'ish' ;
-CD : 'cd' ;
-STHD : 'sthd' ;
-SLOC : 'sloc' ;
+CD : 'cd' ;                 // TODO: Not implemented?
+STHD : 'sthd' ;             // TODO: Not implemented?
+SLOC : 'sloc' ;             // TODO: Not implemented?
 MFENCE : 'mfence' ;
 LWSYNC : 'lwsync' ;
 CTRLISYNC : 'ctrlisync' ;
@@ -235,7 +242,13 @@ CTRL : 'ctrl';
 ISB : 'isb' ;
 ADDR : 'addr' ;
 DATA : 'data' ;
-ID : 'id' ;
+INT : 'int';
+EXT : 'ext';
+/*II : 'ii';
+IC : 'ic';
+CI : 'ci';
+CC : 'cc';*/
+ID : 'id';
 EMPTY : '0' ;
 
 // Event types
