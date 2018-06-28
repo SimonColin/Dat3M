@@ -82,6 +82,18 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIdentifier(ModelParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifier(ModelParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRelation(ModelParser.RelationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -94,73 +106,37 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSetRelation(ModelParser.SetRelationContext ctx) { }
+	@Override public void enterFilterRelation(ModelParser.FilterRelationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSetRelation(ModelParser.SetRelationContext ctx) { }
+	@Override public void exitFilterRelation(ModelParser.FilterRelationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRelToSetRelation(ModelParser.RelToSetRelationContext ctx) { }
+	@Override public void enterEventFilter(ModelParser.EventFilterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRelToSetRelation(ModelParser.RelToSetRelationContext ctx) { }
+	@Override public void exitEventFilter(ModelParser.EventFilterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSetToRelRelation(ModelParser.SetToRelRelationContext ctx) { }
+	@Override public void enterBasicEventFilter(ModelParser.BasicEventFilterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSetToRelRelation(ModelParser.SetToRelRelationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBase(ModelParser.BaseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBase(ModelParser.BaseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEventType(ModelParser.EventTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEventType(ModelParser.EventTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBasicEvent(ModelParser.BasicEventContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBasicEvent(ModelParser.BasicEventContext ctx) { }
+	@Override public void exitBasicEventFilter(ModelParser.BasicEventFilterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -257,6 +233,18 @@ public class ModelBaseListener implements ModelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNonAtomic(ModelParser.NonAtomicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBase(ModelParser.BaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBase(ModelParser.BaseContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

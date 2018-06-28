@@ -64,6 +64,16 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitFancyrel(ModelParser.FancyrelContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ModelParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(ModelParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(ModelParser.IdentifierContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ModelParser#relation}.
 	 * @param ctx the parse tree
 	 */
@@ -74,65 +84,35 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitRelation(ModelParser.RelationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#setRelation}.
+	 * Enter a parse tree produced by {@link ModelParser#filterRelation}.
 	 * @param ctx the parse tree
 	 */
-	void enterSetRelation(ModelParser.SetRelationContext ctx);
+	void enterFilterRelation(ModelParser.FilterRelationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#setRelation}.
+	 * Exit a parse tree produced by {@link ModelParser#filterRelation}.
 	 * @param ctx the parse tree
 	 */
-	void exitSetRelation(ModelParser.SetRelationContext ctx);
+	void exitFilterRelation(ModelParser.FilterRelationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#relToSetRelation}.
+	 * Enter a parse tree produced by {@link ModelParser#eventFilter}.
 	 * @param ctx the parse tree
 	 */
-	void enterRelToSetRelation(ModelParser.RelToSetRelationContext ctx);
+	void enterEventFilter(ModelParser.EventFilterContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#relToSetRelation}.
+	 * Exit a parse tree produced by {@link ModelParser#eventFilter}.
 	 * @param ctx the parse tree
 	 */
-	void exitRelToSetRelation(ModelParser.RelToSetRelationContext ctx);
+	void exitEventFilter(ModelParser.EventFilterContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#setToRelRelation}.
+	 * Enter a parse tree produced by {@link ModelParser#basicEventFilter}.
 	 * @param ctx the parse tree
 	 */
-	void enterSetToRelRelation(ModelParser.SetToRelRelationContext ctx);
+	void enterBasicEventFilter(ModelParser.BasicEventFilterContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#setToRelRelation}.
+	 * Exit a parse tree produced by {@link ModelParser#basicEventFilter}.
 	 * @param ctx the parse tree
 	 */
-	void exitSetToRelRelation(ModelParser.SetToRelRelationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#base}.
-	 * @param ctx the parse tree
-	 */
-	void enterBase(ModelParser.BaseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#base}.
-	 * @param ctx the parse tree
-	 */
-	void exitBase(ModelParser.BaseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#eventType}.
-	 * @param ctx the parse tree
-	 */
-	void enterEventType(ModelParser.EventTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#eventType}.
-	 * @param ctx the parse tree
-	 */
-	void exitEventType(ModelParser.EventTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#basicEvent}.
-	 * @param ctx the parse tree
-	 */
-	void enterBasicEvent(ModelParser.BasicEventContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#basicEvent}.
-	 * @param ctx the parse tree
-	 */
-	void exitBasicEvent(ModelParser.BasicEventContext ctx);
+	void exitBasicEventFilter(ModelParser.BasicEventFilterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ModelParser#atomics}.
 	 * @param ctx the parse tree
@@ -213,4 +193,14 @@ public interface ModelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNonAtomic(ModelParser.NonAtomicContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ModelParser#base}.
+	 * @param ctx the parse tree
+	 */
+	void enterBase(ModelParser.BaseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#base}.
+	 * @param ctx the parse tree
+	 */
+	void exitBase(ModelParser.BaseContext ctx);
 }

@@ -25,15 +25,15 @@ import java.util.Set;
 public class Wmm {
 
     protected ArrayList<Axiom> axioms = new ArrayList<>();
-    private final ArrayList<Relation> namedrels = new ArrayList<>();
     protected Map<String, FilterInterface> filters = new HashMap<String, FilterInterface>();
+    protected Map<String, Relation> relations = new HashMap<String, Relation>();
 
     public void addAxiom(Axiom ax) {
         axioms.add(ax);
     }
 
-    public void addRel(Relation rel) {
-        namedrels.add(rel);
+    public void addRelation(Relation rel) {
+        relations.put(rel.getName(), rel);
     }
 
     public void addFilter(FilterInterface filter) {
@@ -42,6 +42,10 @@ public class Wmm {
 
     public FilterInterface getFilter(String name){
         return filters.get(name);
+    }
+
+    public Relation getRelation(String name){
+        return relations.get(name);
     }
 
     /**
@@ -55,14 +59,14 @@ public class Wmm {
         BoolExpr expr = ctx.mkTrue();
         Set<String> encodedRels = new HashSet<>();
 
-
         for (Axiom ax : axioms) {
             expr = ctx.mkAnd(expr, ax.getRel().encode(program, ctx, encodedRels));
         }
 
-        for (Relation namedrel : namedrels) {
-            expr = ctx.mkAnd(expr, namedrel.encode(program, ctx, encodedRels));
+        for (Map.Entry<String, Relation> relation : relations.entrySet()){
+            expr = ctx.mkAnd(expr, relation.getValue().encode(program, ctx, encodedRels));
         }
+
         return expr;
     }
 
@@ -105,6 +109,12 @@ public class Wmm {
     public String toString() {
         StringBuilder result = new StringBuilder();
         Set<Relation> named = new HashSet<>();
+
+        for (Map.Entry<String, FilterInterface> filter : filters.entrySet()){
+            result.append(filter.getValue());
+            result.append("\n");
+        }
+
         for (Axiom axiom : axioms) {
             result.append(axiom);
             result.append("\n");
@@ -114,8 +124,9 @@ public class Wmm {
             result.append(relation);
             result.append("\n");
         }
-        for (Relation namedrel : namedrels) {
-            result.append(namedrel);
+
+        for (Map.Entry<String, Relation> relation : relations.entrySet()){
+            result.append(relation.getValue());
             result.append("\n");
         }
         return result.toString();
