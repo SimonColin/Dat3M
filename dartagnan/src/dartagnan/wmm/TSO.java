@@ -22,7 +22,7 @@ public class TSO {
 
         // TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation WR = new RelSetToSet(new FilterBasic("W"), new FilterBasic("R"), "WR");
+		Relation WR = new RelCartesian(new FilterBasic("W"), new FilterBasic("R"), "WR");
         BoolExpr enc = WR.encode(program, ctx, encodedRelations);
 
 		enc = ctx.mkAnd(enc, satUnion("co", "fr", events, ctx));

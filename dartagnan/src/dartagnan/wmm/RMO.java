@@ -25,10 +25,10 @@ public class RMO {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RR = new RelSetToSet(new FilterBasic("R"), new FilterBasic("R"), "RR");
-		Relation RW = new RelSetToSet(new FilterBasic("R"), new FilterBasic("W"), "RW");
-		Relation WR = new RelSetToSet(new FilterBasic("W"), new FilterBasic("R"), "WR");
-		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
+		Relation RR = new RelCartesian(new FilterBasic("R"), new FilterBasic("R"), "RR");
+		Relation RW = new RelCartesian(new FilterBasic("R"), new FilterBasic("W"), "RW");
+		Relation WR = new RelCartesian(new FilterBasic("W"), new FilterBasic("R"), "WR");
+		Relation RM = new RelCartesian(new FilterBasic("R"), new FilterBasic("M"), "RM");
 		BoolExpr enc = RR.encode(program, ctx, encodedRelations);
 		enc = ctx.mkAnd(enc, RW.encode(program, ctx, encodedRelations));
 		enc = ctx.mkAnd(enc, WR.encode(program, ctx, encodedRelations));

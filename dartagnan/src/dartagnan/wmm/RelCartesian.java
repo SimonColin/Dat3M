@@ -11,22 +11,22 @@ import java.util.Set;
 
 import static dartagnan.utils.Utils.edge;
 
-public class RelSetToSet extends SetRelation{
+public class RelCartesian extends SetRelation{
 
     protected FilterInterface filter1;
     protected FilterInterface filter2;
 
-    public RelSetToSet(FilterInterface filter1, FilterInterface filter2, String name, String term) {
+    public RelCartesian(FilterInterface filter1, FilterInterface filter2, String name, String term) {
         super(name, term);
         this.filter1 = filter1;
         this.filter2 = filter2;
     }
 
-    public RelSetToSet(FilterInterface filter1, FilterInterface filter2, String term) {
+    public RelCartesian(FilterInterface filter1, FilterInterface filter2, String term) {
         this(filter1, filter2, filter1.toString() + filter2.toString(), term);
     }
 
-    public RelSetToSet(FilterInterface filter1, FilterInterface filter2) {
+    public RelCartesian(FilterInterface filter1, FilterInterface filter2) {
         this(filter1, filter2, filter1.toString() + filter2.toString());
     }
 

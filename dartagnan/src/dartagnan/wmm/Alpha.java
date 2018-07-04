@@ -21,10 +21,10 @@ public class Alpha {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RW = new RelSetToSet(new FilterBasic("R"), new FilterBasic("W"), "RW");
-		Relation WR = new RelSetToSet(new FilterBasic("W"), new FilterBasic("R"), "WR");
-		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
-		Relation WW = new RelSetToSet(new FilterBasic("W"), new FilterBasic("W"), "WW");
+		Relation RW = new RelCartesian(new FilterBasic("R"), new FilterBasic("W"), "RW");
+		Relation WR = new RelCartesian(new FilterBasic("W"), new FilterBasic("R"), "WR");
+		Relation RM = new RelCartesian(new FilterBasic("R"), new FilterBasic("M"), "RM");
+		Relation WW = new RelCartesian(new FilterBasic("W"), new FilterBasic("W"), "WW");
 		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
 		enc = ctx.mkAnd(enc, WR.encode(program, ctx, encodedRelations));
 		enc = ctx.mkAnd(enc, RM.encode(program, ctx, encodedRelations));

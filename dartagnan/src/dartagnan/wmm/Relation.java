@@ -19,6 +19,27 @@ import java.util.Set;
  */
 public abstract class Relation {
 
+    public static final String[] BASIC_RELATIONS = {
+            "po",
+            "po-loc", "poloc",
+            "rfe", "rfi", "rf",
+            "fr", "fre", "fri",
+            "co", "coe", "coi",
+            "ad",
+            "idd",
+            "ish",
+            "mfence",
+            "lwsync",
+            "ctrlisync",
+            "isync",
+            "sync",
+            "ctrlDirect",
+            "ctrlisb",
+            "ctrl",
+            "isb",
+            "id",
+    };
+
     /**
      * Describes whether the encoding process uses an over-approximation which is only suitable for checking consistency, NOT inconsistency.
      */

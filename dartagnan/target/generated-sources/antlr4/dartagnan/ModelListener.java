@@ -24,183 +24,53 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitMcm(ModelParser.McmContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#axiom}.
+	 * Enter a parse tree produced by {@link ModelParser#definition}.
 	 * @param ctx the parse tree
 	 */
-	void enterAxiom(ModelParser.AxiomContext ctx);
+	void enterDefinition(ModelParser.DefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#axiom}.
+	 * Exit a parse tree produced by {@link ModelParser#definition}.
 	 * @param ctx the parse tree
 	 */
-	void exitAxiom(ModelParser.AxiomContext ctx);
+	void exitDefinition(ModelParser.DefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#reldef}.
+	 * Enter a parse tree produced by {@link ModelParser#axiomDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterReldef(ModelParser.ReldefContext ctx);
+	void enterAxiomDefinition(ModelParser.AxiomDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#reldef}.
+	 * Exit a parse tree produced by {@link ModelParser#axiomDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitReldef(ModelParser.ReldefContext ctx);
+	void exitAxiomDefinition(ModelParser.AxiomDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#filterdef}.
+	 * Enter a parse tree produced by {@link ModelParser#letDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterFilterdef(ModelParser.FilterdefContext ctx);
+	void enterLetDefinition(ModelParser.LetDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#filterdef}.
+	 * Exit a parse tree produced by {@link ModelParser#letDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitFilterdef(ModelParser.FilterdefContext ctx);
+	void exitLetDefinition(ModelParser.LetDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#fancyrel}.
+	 * Enter a parse tree produced by {@link ModelParser#letRecDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterFancyrel(ModelParser.FancyrelContext ctx);
+	void enterLetRecDefinition(ModelParser.LetRecDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#fancyrel}.
+	 * Exit a parse tree produced by {@link ModelParser#letRecDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitFancyrel(ModelParser.FancyrelContext ctx);
+	void exitLetRecDefinition(ModelParser.LetRecDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ModelParser#identifier}.
+	 * Enter a parse tree produced by {@link ModelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdentifier(ModelParser.IdentifierContext ctx);
+	void enterExpression(ModelParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModelParser#identifier}.
+	 * Exit a parse tree produced by {@link ModelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdentifier(ModelParser.IdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#relation}.
-	 * @param ctx the parse tree
-	 */
-	void enterRelation(ModelParser.RelationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#relation}.
-	 * @param ctx the parse tree
-	 */
-	void exitRelation(ModelParser.RelationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#filterRelation}.
-	 * @param ctx the parse tree
-	 */
-	void enterFilterRelation(ModelParser.FilterRelationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#filterRelation}.
-	 * @param ctx the parse tree
-	 */
-	void exitFilterRelation(ModelParser.FilterRelationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#eventFilter}.
-	 * @param ctx the parse tree
-	 */
-	void enterEventFilter(ModelParser.EventFilterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#eventFilter}.
-	 * @param ctx the parse tree
-	 */
-	void exitEventFilter(ModelParser.EventFilterContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#basicEventFilter}.
-	 * @param ctx the parse tree
-	 */
-	void enterBasicEventFilter(ModelParser.BasicEventFilterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#basicEventFilter}.
-	 * @param ctx the parse tree
-	 */
-	void exitBasicEventFilter(ModelParser.BasicEventFilterContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#atomics}.
-	 * @param ctx the parse tree
-	 */
-	void enterAtomics(ModelParser.AtomicsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#atomics}.
-	 * @param ctx the parse tree
-	 */
-	void exitAtomics(ModelParser.AtomicsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#sc}.
-	 * @param ctx the parse tree
-	 */
-	void enterSc(ModelParser.ScContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#sc}.
-	 * @param ctx the parse tree
-	 */
-	void exitSc(ModelParser.ScContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#relAqc}.
-	 * @param ctx the parse tree
-	 */
-	void enterRelAqc(ModelParser.RelAqcContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#relAqc}.
-	 * @param ctx the parse tree
-	 */
-	void exitRelAqc(ModelParser.RelAqcContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#release}.
-	 * @param ctx the parse tree
-	 */
-	void enterRelease(ModelParser.ReleaseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#release}.
-	 * @param ctx the parse tree
-	 */
-	void exitRelease(ModelParser.ReleaseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#acquire}.
-	 * @param ctx the parse tree
-	 */
-	void enterAcquire(ModelParser.AcquireContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#acquire}.
-	 * @param ctx the parse tree
-	 */
-	void exitAcquire(ModelParser.AcquireContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#cons}.
-	 * @param ctx the parse tree
-	 */
-	void enterCons(ModelParser.ConsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#cons}.
-	 * @param ctx the parse tree
-	 */
-	void exitCons(ModelParser.ConsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#relaxed}.
-	 * @param ctx the parse tree
-	 */
-	void enterRelaxed(ModelParser.RelaxedContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#relaxed}.
-	 * @param ctx the parse tree
-	 */
-	void exitRelaxed(ModelParser.RelaxedContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#nonAtomic}.
-	 * @param ctx the parse tree
-	 */
-	void enterNonAtomic(ModelParser.NonAtomicContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#nonAtomic}.
-	 * @param ctx the parse tree
-	 */
-	void exitNonAtomic(ModelParser.NonAtomicContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ModelParser#base}.
-	 * @param ctx the parse tree
-	 */
-	void enterBase(ModelParser.BaseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ModelParser#base}.
-	 * @param ctx the parse tree
-	 */
-	void exitBase(ModelParser.BaseContext ctx);
+	void exitExpression(ModelParser.ExpressionContext ctx);
 }

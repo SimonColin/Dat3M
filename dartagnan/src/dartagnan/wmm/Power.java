@@ -38,10 +38,10 @@ public class Power {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RW = new RelSetToSet(new FilterBasic("R"), new FilterBasic("W"), "RW");
-		Relation WR = new RelSetToSet(new FilterBasic("W"), new FilterBasic("R"), "WR");
-		Relation RR = new RelSetToSet(new FilterBasic("R"), new FilterBasic("R"), "RR");
-		Relation WW = new RelSetToSet(new FilterBasic("W"), new FilterBasic("W"), "WW");
+		Relation RW = new RelCartesian(new FilterBasic("R"), new FilterBasic("W"), "RW");
+		Relation WR = new RelCartesian(new FilterBasic("W"), new FilterBasic("R"), "WR");
+		Relation RR = new RelCartesian(new FilterBasic("R"), new FilterBasic("R"), "RR");
+		Relation WW = new RelCartesian(new FilterBasic("W"), new FilterBasic("W"), "WW");
 		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
 		enc = ctx.mkAnd(enc, WR.encode(program, ctx, encodedRelations));
 		enc = ctx.mkAnd(enc, RR.encode(program, ctx, encodedRelations));

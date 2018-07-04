@@ -24,6 +24,18 @@ public class Event extends Thread {
     public static final String EVENT_TYPE_ATOMIC = "A";
     public static final String EVENT_TYPE_ANY = "_";
 
+    public static final String[] BASIC_EVENT_TYPES = {
+            EVENT_TYPE_INIT,
+            EVENT_TYPE_READ,
+            EVENT_TYPE_WRITE,
+            EVENT_TYPE_READ_MODIFY_WRITE,
+            EVENT_TYPE_MEMORY,
+            EVENT_TYPE_FENCE,
+            EVENT_TYPE_LOCK,
+            EVENT_TYPE_ATOMIC,
+            EVENT_TYPE_ANY
+    };
+
 	private Integer eid;
 	private Integer hlId;
 	private Integer unfCopy;

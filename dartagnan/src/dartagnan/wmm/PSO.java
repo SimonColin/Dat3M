@@ -20,7 +20,7 @@ public class PSO {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
+		Relation RM = new RelCartesian(new FilterBasic("R"), new FilterBasic("M"), "RM");
 		BoolExpr enc = RM.encode(program, ctx, encodedRelations);
 
 		enc = ctx.mkAnd(enc, EncodingsCAT.satUnion("co", "fr", events, ctx));

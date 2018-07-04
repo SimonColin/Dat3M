@@ -17,14 +17,14 @@ import java.util.Set;
  *
  * @author Florian Furbach
  */
-public class RelInterSect extends BinaryRelation{
+public class RelIntersection extends BinaryRelation{
 
-    public RelInterSect(Relation r1, Relation r2, String name) {
+    public RelIntersection(Relation r1, Relation r2, String name) {
         super(r1,r2,name,String.format("(%s&%s)", r1.getName(), r2.getName()));
 
     }
     
-    public RelInterSect(Relation r1, Relation r2) {
+    public RelIntersection(Relation r1, Relation r2) {
         super(r1,r2,String.format("(%s&%s)", r1.getName(), r2.getName()));
     }
     

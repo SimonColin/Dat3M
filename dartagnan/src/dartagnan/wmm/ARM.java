@@ -39,9 +39,9 @@ public class ARM {
 
 		// TODO: We do not actually need encodedRelations here
 		Set<String> encodedRelations = new HashSet<>();
-		Relation RW = new RelSetToSet(new FilterBasic("R"), new FilterBasic("W"), "RW");
-		Relation RM = new RelSetToSet(new FilterBasic("R"), new FilterBasic("M"), "RM");
-		Relation WW = new RelSetToSet(new FilterBasic("W"), new FilterBasic("W"), "WW");
+		Relation RW = new RelCartesian(new FilterBasic("R"), new FilterBasic("W"), "RW");
+		Relation RM = new RelCartesian(new FilterBasic("R"), new FilterBasic("M"), "RM");
+		Relation WW = new RelCartesian(new FilterBasic("W"), new FilterBasic("W"), "WW");
 		BoolExpr enc = RW.encode(program, ctx, encodedRelations);
 		enc = ctx.mkAnd(enc, RM.encode(program, ctx, encodedRelations));
 		enc = ctx.mkAnd(enc, WW.encode(program, ctx, encodedRelations));

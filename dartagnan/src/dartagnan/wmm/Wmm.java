@@ -11,12 +11,15 @@ import com.microsoft.z3.Z3Exception;
 import dartagnan.program.Event;
 import dartagnan.program.Program;
 import dartagnan.program.event.filter.FilterInterface;
+import dartagnan.program.event.filter.FilterBasic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -28,6 +31,20 @@ public class Wmm {
     protected Map<String, FilterInterface> filters = new HashMap<String, FilterInterface>();
     protected Map<String, Relation> relations = new HashMap<String, Relation>();
 
+    protected List<String> basicRelations;
+    protected List<String> basicFilters;
+
+    public Wmm(){
+        basicRelations = new ArrayList<String>(Arrays.asList(Relation.BASIC_RELATIONS));
+        basicFilters = new ArrayList<String>(Arrays.asList(Event.BASIC_EVENT_TYPES));
+        // TODO: Add atomics to filter
+
+        // TODO: Move me somewhere
+        relations.put("addr", new EmptyRel());
+        relations.put("0", new EmptyRel());
+        relations.put("data", new RelIntersection(new RelLocTrans(new BasicRelation("idd")), new BasicRelation("RW")));
+    }
+
     public void addAxiom(Axiom ax) {
         axioms.add(ax);
     }
@@ -36,16 +53,29 @@ public class Wmm {
         relations.put(rel.getName(), rel);
     }
 
+    public Relation getRelation(String name){
+        Relation relation = relations.get(name);
+        if(relation == null && basicRelations.indexOf(name) > -1){
+            // TODO: Add to relations here, fix "po-loc" vs "poloc"
+            if(name.equals("po-loc")){
+                relation = new BasicRelation("poloc");
+            } else {
+                relation = new BasicRelation(name);
+            }
+        }
+        return relation;
+    }
+
     public void addFilter(FilterInterface filter) {
         filters.put(filter.getName(), filter);
     }
 
     public FilterInterface getFilter(String name){
-        return filters.get(name);
-    }
-
-    public Relation getRelation(String name){
-        return relations.get(name);
+        FilterInterface filter = filters.get(name);
+        if(filter == null && basicFilters.indexOf(name) > -1){
+            filter = new FilterBasic(name);
+        }
+        return filter;
     }
 
     /**
@@ -108,25 +138,22 @@ public class Wmm {
      */
     public String toString() {
         StringBuilder result = new StringBuilder();
-        Set<Relation> named = new HashSet<>();
-
-        for (Map.Entry<String, FilterInterface> filter : filters.entrySet()){
-            result.append(filter.getValue());
-            result.append("\n");
-        }
 
         for (Axiom axiom : axioms) {
             result.append(axiom);
             result.append("\n");
-            named.addAll(axiom.getRel().getNamedRelations());
-        }
-        for (Relation relation : named) {
-            result.append(relation);
-            result.append("\n");
         }
 
-        for (Map.Entry<String, Relation> relation : relations.entrySet()){
-            result.append(relation.getValue());
+        for (Map.Entry<String, Relation> relation : relations.entrySet()) {
+            // TODO: Cleanup names
+            if(relation.getValue().isnamed){
+                result.append(relation.getValue());
+                result.append("\n");
+            }
+        }
+
+        for (Map.Entry<String, FilterInterface> filter : filters.entrySet()){
+            result.append(filter.getValue());
             result.append("\n");
         }
         return result.toString();

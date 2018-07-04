@@ -2,12 +2,12 @@ package dartagnan.program.event.filter;
 
 import dartagnan.program.Event;
 
-public class FilterDifference extends FilterAbstract implements FilterInterface {
+public class FilterMinus extends FilterAbstract implements FilterInterface {
 
     private FilterInterface filterPresent;
     private FilterInterface filterAbsent;
 
-    public FilterDifference(FilterInterface filterPresent, FilterInterface filterAbsent){
+    public FilterMinus(FilterInterface filterPresent, FilterInterface filterAbsent){
         this.filterPresent = filterPresent;
         this.filterAbsent = filterAbsent;
     }
