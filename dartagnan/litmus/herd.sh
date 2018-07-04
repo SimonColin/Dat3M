@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # TODO: ROOT and HERD from environment
-ROOT="/Users/natgavrilenko/Desktop/Dat3M/dartagnan"
+ROOT="/Users/natgavrilenko/Desktop/Dat3M-current/dartagnan"
 HERD="/Users/natgavrilenko/.opam/system/bin/herd7"
 
 TESTS_PATH=$ROOT/"litmus"

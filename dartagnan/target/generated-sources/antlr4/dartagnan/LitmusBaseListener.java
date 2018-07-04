@@ -73,6 +73,18 @@ public class LitmusBaseListener implements LitmusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInitRegisterX86(LitmusParser.InitRegisterX86Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInitRegisterX86(LitmusParser.InitRegisterX86Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInitRegisterLocation(LitmusParser.InitRegisterLocationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -80,6 +92,18 @@ public class LitmusBaseListener implements LitmusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInitRegisterLocation(LitmusParser.InitRegisterLocationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInitRegisterX86Location(LitmusParser.InitRegisterX86LocationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInitRegisterX86Location(LitmusParser.InitRegisterX86LocationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -332,6 +356,18 @@ public class LitmusBaseListener implements LitmusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStorePower(LitmusParser.StorePowerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmpw(LitmusParser.CmpwContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmpw(LitmusParser.CmpwContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

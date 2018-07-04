@@ -57,6 +57,16 @@ public interface LitmusListener extends ParseTreeListener {
 	 */
 	void exitInitRegister(LitmusParser.InitRegisterContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LitmusParser#initRegisterX86}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitRegisterX86(LitmusParser.InitRegisterX86Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link LitmusParser#initRegisterX86}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitRegisterX86(LitmusParser.InitRegisterX86Context ctx);
+	/**
 	 * Enter a parse tree produced by {@link LitmusParser#initRegisterLocation}.
 	 * @param ctx the parse tree
 	 */
@@ -66,6 +76,16 @@ public interface LitmusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInitRegisterLocation(LitmusParser.InitRegisterLocationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LitmusParser#initRegisterX86Location}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitRegisterX86Location(LitmusParser.InitRegisterX86LocationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LitmusParser#initRegisterX86Location}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitRegisterX86Location(LitmusParser.InitRegisterX86LocationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LitmusParser#assertion}.
 	 * @param ctx the parse tree
@@ -276,6 +296,16 @@ public interface LitmusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStorePower(LitmusParser.StorePowerContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LitmusParser#cmpw}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmpw(LitmusParser.CmpwContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LitmusParser#cmpw}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmpw(LitmusParser.CmpwContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LitmusParser#mfence}.
 	 * @param ctx the parse tree
