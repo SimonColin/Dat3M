@@ -25,7 +25,7 @@ public abstract class Relation {
             "rfe", "rfi", "rf",
             "fr", "fre", "fri",
             "co", "coe", "coi",
-            "ad",
+            //"ad",   // TODO: what is it?
             "idd",
             "ish",
             "mfence",
@@ -38,6 +38,9 @@ public abstract class Relation {
             "ctrl",
             "isb",
             "id",
+            "int",
+            "ext",
+            "loc"
     };
 
     /**

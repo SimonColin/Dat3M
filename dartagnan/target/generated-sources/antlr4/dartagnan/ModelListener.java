@@ -64,6 +64,16 @@ public interface ModelListener extends ParseTreeListener {
 	 */
 	void exitLetRecDefinition(ModelParser.LetRecDefinitionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ModelParser#showDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterShowDefinition(ModelParser.ShowDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModelParser#showDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitShowDefinition(ModelParser.ShowDefinitionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ModelParser#expression}.
 	 * @param ctx the parse tree
 	 */

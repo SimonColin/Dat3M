@@ -22,27 +22,28 @@ definition
     :   axiomDefinition
     |   letDefinition
     |   letRecDefinition
+    |   showDefinition
     ;
 
-// TODO: Add negations of these axioms
 axiomDefinition returns [Axiom value]
-    :   'acyclic' { createDummy = false; } e = expression {
+    :   (negate = '~')? 'acyclic' { createDummy = false; } e = expression ('as' NAME)? {
             if(!($e.value instanceof Relation)){
                 throw new RuntimeException("Invalid syntax at " + $e.text);
             }
-            wmm.addAxiom(new Acyclic((Relation)$e.value));
-        } ('as' NAME)?
-    |   'irreflexive' { createDummy = false; } e = expression {
+            wmm.addAxiom(new Acyclic((Relation)$e.value, $negate != null));
+        }
+    |   (negate = '~')? 'irreflexive' { createDummy = false; } e = expression ('as' NAME)? {
             if(!($e.value instanceof Relation)){
                 throw new RuntimeException("Invalid syntax at " + $e.text);
             }
-            wmm.addAxiom(new Irreflexive((Relation)$e.value));
-        }('as' NAME)?
-    |   'empty' { createDummy = false; } e = expression {
-            // TODO: Implementation (relation and filter)
-            //throw new RuntimeException("Not implemented");
-            System.out.println("empty is not implemented");
-        } ('as' NAME)?
+            wmm.addAxiom(new Irreflexive((Relation)$e.value, $negate != null));
+        }
+    |   (negate = '~')? 'empty' { createDummy = false; } e = expression ('as' NAME)? {
+            if(!($e.value instanceof Relation)){
+                throw new RuntimeException("Invalid syntax at " + $e.text);
+            }
+            wmm.addAxiom(new Empty((Relation)$e.value, $negate != null));
+        }
     ;
 
 letDefinition
@@ -51,7 +52,7 @@ letDefinition
                 ((Relation)$e.value).setName($n.text);
                 wmm.addRelation((Relation)$e.value);
             } else if ($e.value instanceof FilterInterface){
-                ((Relation)$e.value).setName($n.text);
+                ((FilterInterface)$e.value).setName($n.text);
                 wmm.addFilter((FilterInterface)$e.value);
             } else {
                 throw new RuntimeException("Invalid definition of " + $n.text);
@@ -68,6 +69,10 @@ letRecDefinition
                 throw new RuntimeException("Invalid definition of " + $n.text);
             }
         }
+    ;
+
+showDefinition
+    :   'show' expression 'as' NAME
     ;
 
 expression returns [Object value]
@@ -159,16 +164,21 @@ expression returns [Object value]
     ;
 
 NAME
-    : [A-Za-z0-9\-]+
+    : [A-Za-z0-9\-_]+
     ;
 
-WS
-    :   [ \t\n\r]+
+LINE_COMMENT
+    :   '//' ~[\r\n]*
         -> skip
     ;
 
 BLOCK_COMMENT
     :   '(*' .*? '*)'
+        -> skip
+    ;
+
+WS
+    :   [ \t\n\r]+
         -> skip
     ;
 

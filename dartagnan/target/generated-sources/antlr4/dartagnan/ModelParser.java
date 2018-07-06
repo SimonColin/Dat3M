@@ -25,25 +25,25 @@ public class ModelParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, NAME=24, WS=25, 
-		BLOCK_COMMENT=26, INCLUDE=27, MODELNAME=28;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
+		NAME=25, LINE_COMMENT=26, BLOCK_COMMENT=27, WS=28, INCLUDE=29, MODELNAME=30;
 	public static final int
 		RULE_mcm = 0, RULE_definition = 1, RULE_axiomDefinition = 2, RULE_letDefinition = 3, 
-		RULE_letRecDefinition = 4, RULE_expression = 5;
+		RULE_letRecDefinition = 4, RULE_showDefinition = 5, RULE_expression = 6;
 	public static final String[] ruleNames = {
 		"mcm", "definition", "axiomDefinition", "letDefinition", "letRecDefinition", 
-		"expression"
+		"showDefinition", "expression"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'acyclic'", "'as'", "'irreflexive'", "'empty'", "'let'", "'='", 
-		"'let rec'", "'and'", "'toid('", "')'", "'['", "']'", "'('", "'*'", "'+'", 
-		"'?'", "'^'", "'-1'", "'~'", "';'", "'|'", "'\\'", "'&'"
+		null, "'~'", "'acyclic'", "'as'", "'irreflexive'", "'empty'", "'let'", 
+		"'='", "'let rec'", "'and'", "'show'", "'toid('", "')'", "'['", "']'", 
+		"'('", "'*'", "'+'", "'?'", "'^'", "'-1'", "';'", "'|'", "'\\'", "'&'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		"NAME", "WS", "BLOCK_COMMENT", "INCLUDE", "MODELNAME"
+		null, "NAME", "LINE_COMMENT", "BLOCK_COMMENT", "WS", "INCLUDE", "MODELNAME"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -129,31 +129,31 @@ public class ModelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(13);
+			setState(15);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==NAME) {
 				{
-				setState(12);
+				setState(14);
 				match(NAME);
 				}
 			}
 
-			setState(16); 
+			setState(18); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(15);
+				setState(17);
 				definition();
 				}
 				}
-				setState(18); 
+				setState(20); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__6) | (1L << T__7))) != 0) );
-			setState(20);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9))) != 0) );
+			setState(22);
 			match(EOF);
 
 			            ((McmContext)_localctx).value =   wmm;
@@ -181,6 +181,9 @@ public class ModelParser extends Parser {
 		public LetRecDefinitionContext letRecDefinition() {
 			return getRuleContext(LetRecDefinitionContext.class,0);
 		}
+		public ShowDefinitionContext showDefinition() {
+			return getRuleContext(ShowDefinitionContext.class,0);
+		}
 		public DefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -199,31 +202,39 @@ public class ModelParser extends Parser {
 		DefinitionContext _localctx = new DefinitionContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_definition);
 		try {
-			setState(26);
+			setState(29);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
-			case T__2:
+			case T__1:
 			case T__3:
+			case T__4:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(23);
+				setState(25);
 				axiomDefinition();
 				}
 				break;
-			case T__4:
+			case T__5:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(24);
+				setState(26);
 				letDefinition();
 				}
 				break;
-			case T__6:
 			case T__7:
+			case T__8:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(25);
+				setState(27);
 				letRecDefinition();
+				}
+				break;
+			case T__9:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(28);
+				showDefinition();
 				}
 				break;
 			default:
@@ -243,6 +254,7 @@ public class ModelParser extends Parser {
 
 	public static class AxiomDefinitionContext extends ParserRuleContext {
 		public Axiom value;
+		public Token negate;
 		public ExpressionContext e;
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -267,94 +279,123 @@ public class ModelParser extends Parser {
 		enterRule(_localctx, 4, RULE_axiomDefinition);
 		int _la;
 		try {
-			setState(52);
+			setState(67);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__0:
+			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(28);
-				match(T__0);
-				 createDummy = false; 
-				setState(30);
-				((AxiomDefinitionContext)_localctx).e = expression(0);
-
-				            if(!(((AxiomDefinitionContext)_localctx).e.value instanceof Relation)){
-				                throw new RuntimeException("Invalid syntax at " + (((AxiomDefinitionContext)_localctx).e!=null?_input.getText(((AxiomDefinitionContext)_localctx).e.start,((AxiomDefinitionContext)_localctx).e.stop):null));
-				            }
-				            wmm.addAxiom(new Acyclic((Relation)((AxiomDefinitionContext)_localctx).e.value));
-				        
-				setState(34);
+				setState(32);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__1) {
+				if (_la==T__0) {
 					{
-					setState(32);
-					match(T__1);
-					setState(33);
+					setState(31);
+					((AxiomDefinitionContext)_localctx).negate = match(T__0);
+					}
+				}
+
+				setState(34);
+				match(T__1);
+				 createDummy = false; 
+				setState(36);
+				((AxiomDefinitionContext)_localctx).e = expression(0);
+				setState(39);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__2) {
+					{
+					setState(37);
+					match(T__2);
+					setState(38);
 					match(NAME);
 					}
 				}
 
+
+				            if(!(((AxiomDefinitionContext)_localctx).e.value instanceof Relation)){
+				                throw new RuntimeException("Invalid syntax at " + (((AxiomDefinitionContext)_localctx).e!=null?_input.getText(((AxiomDefinitionContext)_localctx).e.start,((AxiomDefinitionContext)_localctx).e.stop):null));
+				            }
+				            wmm.addAxiom(new Acyclic((Relation)((AxiomDefinitionContext)_localctx).e.value, ((AxiomDefinitionContext)_localctx).negate != null));
+				        
 				}
 				break;
-			case T__2:
+			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(36);
-				match(T__2);
+				setState(44);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__0) {
+					{
+					setState(43);
+					((AxiomDefinitionContext)_localctx).negate = match(T__0);
+					}
+				}
+
+				setState(46);
+				match(T__3);
 				 createDummy = false; 
-				setState(38);
+				setState(48);
 				((AxiomDefinitionContext)_localctx).e = expression(0);
+				setState(51);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__2) {
+					{
+					setState(49);
+					match(T__2);
+					setState(50);
+					match(NAME);
+					}
+				}
+
 
 				            if(!(((AxiomDefinitionContext)_localctx).e.value instanceof Relation)){
 				                throw new RuntimeException("Invalid syntax at " + (((AxiomDefinitionContext)_localctx).e!=null?_input.getText(((AxiomDefinitionContext)_localctx).e.start,((AxiomDefinitionContext)_localctx).e.stop):null));
 				            }
-				            wmm.addAxiom(new Irreflexive((Relation)((AxiomDefinitionContext)_localctx).e.value));
+				            wmm.addAxiom(new Irreflexive((Relation)((AxiomDefinitionContext)_localctx).e.value, ((AxiomDefinitionContext)_localctx).negate != null));
 				        
-				setState(42);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__1) {
-					{
-					setState(40);
-					match(T__1);
-					setState(41);
-					match(NAME);
-					}
-				}
-
 				}
 				break;
-			case T__3:
+			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(44);
-				match(T__3);
-				 createDummy = false; 
-				setState(46);
-				((AxiomDefinitionContext)_localctx).e = expression(0);
-
-				            // TODO: Implementation (relation and filter)
-				            //throw new RuntimeException("Not implemented");
-				            System.out.println("empty is not implemented");
-				        
-				setState(50);
+				setState(56);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__1) {
+				if (_la==T__0) {
 					{
-					setState(48);
-					match(T__1);
-					setState(49);
+					setState(55);
+					((AxiomDefinitionContext)_localctx).negate = match(T__0);
+					}
+				}
+
+				setState(58);
+				match(T__4);
+				 createDummy = false; 
+				setState(60);
+				((AxiomDefinitionContext)_localctx).e = expression(0);
+				setState(63);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (_la==T__2) {
+					{
+					setState(61);
+					match(T__2);
+					setState(62);
 					match(NAME);
 					}
 				}
 
+
+				            if(!(((AxiomDefinitionContext)_localctx).e.value instanceof Relation)){
+				                throw new RuntimeException("Invalid syntax at " + (((AxiomDefinitionContext)_localctx).e!=null?_input.getText(((AxiomDefinitionContext)_localctx).e.start,((AxiomDefinitionContext)_localctx).e.stop):null));
+				            }
+				            wmm.addAxiom(new Empty((Relation)((AxiomDefinitionContext)_localctx).e.value, ((AxiomDefinitionContext)_localctx).negate != null));
+				        
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -395,21 +436,21 @@ public class ModelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
-			match(T__4);
-			 createDummy = false; 
-			setState(56);
-			((LetDefinitionContext)_localctx).n = match(NAME);
-			setState(57);
+			setState(69);
 			match(T__5);
-			setState(58);
+			 createDummy = false; 
+			setState(71);
+			((LetDefinitionContext)_localctx).n = match(NAME);
+			setState(72);
+			match(T__6);
+			setState(73);
 			((LetDefinitionContext)_localctx).e = expression(0);
 
 			            if(((LetDefinitionContext)_localctx).e.value instanceof Relation){
 			                ((Relation)((LetDefinitionContext)_localctx).e.value).setName((((LetDefinitionContext)_localctx).n!=null?((LetDefinitionContext)_localctx).n.getText():null));
 			                wmm.addRelation((Relation)((LetDefinitionContext)_localctx).e.value);
 			            } else if (((LetDefinitionContext)_localctx).e.value instanceof FilterInterface){
-			                ((Relation)((LetDefinitionContext)_localctx).e.value).setName((((LetDefinitionContext)_localctx).n!=null?((LetDefinitionContext)_localctx).n.getText():null));
+			                ((FilterInterface)((LetDefinitionContext)_localctx).e.value).setName((((LetDefinitionContext)_localctx).n!=null?((LetDefinitionContext)_localctx).n.getText():null));
 			                wmm.addFilter((FilterInterface)((LetDefinitionContext)_localctx).e.value);
 			            } else {
 			                throw new RuntimeException("Invalid definition of " + (((LetDefinitionContext)_localctx).n!=null?((LetDefinitionContext)_localctx).n.getText():null));
@@ -456,9 +497,9 @@ public class ModelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61);
+			setState(76);
 			_la = _input.LA(1);
-			if ( !(_la==T__6 || _la==T__7) ) {
+			if ( !(_la==T__7 || _la==T__8) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -467,11 +508,11 @@ public class ModelParser extends Parser {
 				consume();
 			}
 			 createDummy = true; 
-			setState(63);
+			setState(78);
 			((LetRecDefinitionContext)_localctx).n = match(NAME);
-			setState(64);
-			match(T__5);
-			setState(65);
+			setState(79);
+			match(T__6);
+			setState(80);
 			((LetRecDefinitionContext)_localctx).e = expression(0);
 
 			            if(((LetRecDefinitionContext)_localctx).e.value instanceof Relation){
@@ -481,6 +522,52 @@ public class ModelParser extends Parser {
 			                throw new RuntimeException("Invalid definition of " + (((LetRecDefinitionContext)_localctx).n!=null?((LetRecDefinitionContext)_localctx).n.getText():null));
 			            }
 			        
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ShowDefinitionContext extends ParserRuleContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode NAME() { return getToken(ModelParser.NAME, 0); }
+		public ShowDefinitionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_showDefinition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ModelListener ) ((ModelListener)listener).enterShowDefinition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ModelListener ) ((ModelListener)listener).exitShowDefinition(this);
+		}
+	}
+
+	public final ShowDefinitionContext showDefinition() throws RecognitionException {
+		ShowDefinitionContext _localctx = new ShowDefinitionContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_showDefinition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(83);
+			match(T__9);
+			setState(84);
+			expression(0);
+			setState(85);
+			match(T__2);
+			setState(86);
+			match(NAME);
 			}
 		}
 		catch (RecognitionException re) {
@@ -530,19 +617,19 @@ public class ModelParser extends Parser {
 		int _parentState = getState();
 		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
 		ExpressionContext _prevctx = _localctx;
-		int _startState = 10;
-		enterRecursionRule(_localctx, 10, RULE_expression, _p);
+		int _startState = 12;
+		enterRecursionRule(_localctx, 12, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
+			setState(112);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NAME:
 				{
-				setState(69);
+				setState(89);
 				((ExpressionContext)_localctx).n = match(NAME);
 
 				            ((ExpressionContext)_localctx).value =  wmm.getRelation((((ExpressionContext)_localctx).n!=null?((ExpressionContext)_localctx).n.getText():null));
@@ -555,30 +642,30 @@ public class ModelParser extends Parser {
 				        
 				}
 				break;
-			case T__8:
 			case T__10:
+			case T__12:
 				{
-				setState(79);
+				setState(99);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__8:
-					{
-					setState(71);
-					match(T__8);
-					setState(72);
-					((ExpressionContext)_localctx).e = expression(0);
-					setState(73);
-					match(T__9);
-					}
-					break;
 				case T__10:
 					{
-					setState(75);
+					setState(91);
 					match(T__10);
-					setState(76);
+					setState(92);
 					((ExpressionContext)_localctx).e = expression(0);
-					setState(77);
+					setState(93);
 					match(T__11);
+					}
+					break;
+				case T__12:
+					{
+					setState(95);
+					match(T__12);
+					setState(96);
+					((ExpressionContext)_localctx).e = expression(0);
+					setState(97);
+					match(T__13);
 					}
 					break;
 				default:
@@ -592,24 +679,24 @@ public class ModelParser extends Parser {
 				        
 				}
 				break;
-			case T__12:
+			case T__14:
 				{
-				setState(83);
-				match(T__12);
-				setState(84);
+				setState(103);
+				match(T__14);
+				setState(104);
 				((ExpressionContext)_localctx).e = expression(0);
-				setState(85);
-				match(T__9);
+				setState(105);
+				match(T__11);
 
 				            ((ExpressionContext)_localctx).value =  ((ExpressionContext)_localctx).e.value;
 				        
 				}
 				break;
-			case T__18:
+			case T__0:
 				{
-				setState(88);
-				match(T__18);
-				setState(89);
+				setState(108);
+				match(T__0);
+				setState(109);
 				((ExpressionContext)_localctx).e = expression(5);
 
 				            // TODO: Implementation (relation and filter)
@@ -622,36 +709,36 @@ public class ModelParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(138);
+			setState(158);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(136);
+					setState(156);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.e1 = _prevctx;
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(94);
+						setState(114);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(96);
+						setState(116);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if (_la==T__13) {
+						if (_la==T__15) {
 							{
-							setState(95);
-							match(T__13);
+							setState(115);
+							match(T__15);
 							}
 						}
 
-						setState(98);
+						setState(118);
 						((ExpressionContext)_localctx).e2 = expression(11);
 
 						                      if(!(((ExpressionContext)_localctx).e1.value instanceof FilterInterface) || !(((ExpressionContext)_localctx).e2.value instanceof FilterInterface)){
@@ -667,11 +754,11 @@ public class ModelParser extends Parser {
 						_localctx.e1 = _prevctx;
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(101);
+						setState(121);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(102);
-						match(T__19);
-						setState(103);
+						setState(122);
+						match(T__20);
+						setState(123);
 						((ExpressionContext)_localctx).e2 = expression(5);
 
 						                      if(!(((ExpressionContext)_localctx).e1.value instanceof Relation) || !(((ExpressionContext)_localctx).e2.value instanceof Relation)){
@@ -687,11 +774,11 @@ public class ModelParser extends Parser {
 						_localctx.e1 = _prevctx;
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(106);
+						setState(126);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(107);
-						match(T__20);
-						setState(108);
+						setState(127);
+						match(T__21);
+						setState(128);
 						((ExpressionContext)_localctx).e2 = expression(4);
 
 						                      if(((ExpressionContext)_localctx).e1.value instanceof Relation && ((ExpressionContext)_localctx).e2.value instanceof Relation){
@@ -710,11 +797,11 @@ public class ModelParser extends Parser {
 						_localctx.e1 = _prevctx;
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(111);
+						setState(131);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(112);
-						match(T__21);
-						setState(113);
+						setState(132);
+						match(T__22);
+						setState(133);
 						((ExpressionContext)_localctx).e2 = expression(3);
 
 						                      if(((ExpressionContext)_localctx).e1.value instanceof Relation && ((ExpressionContext)_localctx).e2.value instanceof Relation){
@@ -733,11 +820,11 @@ public class ModelParser extends Parser {
 						_localctx.e1 = _prevctx;
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(116);
+						setState(136);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(117);
-						match(T__22);
-						setState(118);
+						setState(137);
+						match(T__23);
+						setState(138);
 						((ExpressionContext)_localctx).e2 = expression(2);
 
 						                      if(((ExpressionContext)_localctx).e1.value instanceof Relation && ((ExpressionContext)_localctx).e2.value instanceof Relation){
@@ -756,10 +843,10 @@ public class ModelParser extends Parser {
 						_localctx.e = _prevctx;
 						_localctx.e = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(121);
+						setState(141);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(122);
-						match(T__13);
+						setState(142);
+						match(T__15);
 
 						                      if(!(((ExpressionContext)_localctx).e.value instanceof Relation)){
 						                          throw new RuntimeException("Invalid syntax at " + (((ExpressionContext)_localctx).e!=null?_input.getText(((ExpressionContext)_localctx).e.start,((ExpressionContext)_localctx).e.stop):null));
@@ -774,10 +861,10 @@ public class ModelParser extends Parser {
 						_localctx.e = _prevctx;
 						_localctx.e = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(124);
+						setState(144);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(125);
-						match(T__14);
+						setState(145);
+						match(T__16);
 
 						                      if(!(((ExpressionContext)_localctx).e.value instanceof Relation)){
 						                          throw new RuntimeException("Invalid syntax at " + (((ExpressionContext)_localctx).e!=null?_input.getText(((ExpressionContext)_localctx).e.start,((ExpressionContext)_localctx).e.stop):null));
@@ -792,10 +879,10 @@ public class ModelParser extends Parser {
 						_localctx.e = _prevctx;
 						_localctx.e = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(127);
+						setState(147);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(128);
-						match(T__15);
+						setState(148);
+						match(T__17);
 
 						                      // TODO: Implementation
 						                      //throw new RuntimeException("Not implemented");
@@ -809,20 +896,20 @@ public class ModelParser extends Parser {
 						_localctx.e = _prevctx;
 						_localctx.e = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(130);
+						setState(150);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(132);
+						setState(152);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if (_la==T__16) {
+						if (_la==T__18) {
 							{
-							setState(131);
-							match(T__16);
+							setState(151);
+							match(T__18);
 							}
 						}
 
-						setState(134);
-						match(T__17);
+						setState(154);
+						match(T__19);
 
 						                      if(!(((ExpressionContext)_localctx).e.value instanceof Relation)){
 						                          throw new RuntimeException("Invalid syntax at " + (((ExpressionContext)_localctx).e!=null?_input.getText(((ExpressionContext)_localctx).e.start,((ExpressionContext)_localctx).e.stop):null));
@@ -834,9 +921,9 @@ public class ModelParser extends Parser {
 					}
 					} 
 				}
-				setState(140);
+				setState(160);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
 			}
 			}
 		}
@@ -853,7 +940,7 @@ public class ModelParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 5:
+		case 6:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
@@ -883,46 +970,53 @@ public class ModelParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\36\u0090\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\5\2\20\n\2\3\2\6\2\23\n\2"+
-		"\r\2\16\2\24\3\2\3\2\3\2\3\3\3\3\3\3\5\3\35\n\3\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\5\4%\n\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4-\n\4\3\4\3\4\3\4\3\4\3\4\3\4\5"+
-		"\4\65\n\4\5\4\67\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7R\n\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7_\n\7\3\7\3\7\5\7c\n\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7\u0087\n\7"+
-		"\3\7\3\7\7\7\u008b\n\7\f\7\16\7\u008e\13\7\3\7\2\3\f\b\2\4\6\b\n\f\2\3"+
-		"\3\2\t\n\2\u00a1\2\17\3\2\2\2\4\34\3\2\2\2\6\66\3\2\2\2\b8\3\2\2\2\n?"+
-		"\3\2\2\2\f^\3\2\2\2\16\20\7\32\2\2\17\16\3\2\2\2\17\20\3\2\2\2\20\22\3"+
-		"\2\2\2\21\23\5\4\3\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3"+
-		"\2\2\2\25\26\3\2\2\2\26\27\7\2\2\3\27\30\b\2\1\2\30\3\3\2\2\2\31\35\5"+
-		"\6\4\2\32\35\5\b\5\2\33\35\5\n\6\2\34\31\3\2\2\2\34\32\3\2\2\2\34\33\3"+
-		"\2\2\2\35\5\3\2\2\2\36\37\7\3\2\2\37 \b\4\1\2 !\5\f\7\2!$\b\4\1\2\"#\7"+
-		"\4\2\2#%\7\32\2\2$\"\3\2\2\2$%\3\2\2\2%\67\3\2\2\2&\'\7\5\2\2\'(\b\4\1"+
-		"\2()\5\f\7\2),\b\4\1\2*+\7\4\2\2+-\7\32\2\2,*\3\2\2\2,-\3\2\2\2-\67\3"+
-		"\2\2\2./\7\6\2\2/\60\b\4\1\2\60\61\5\f\7\2\61\64\b\4\1\2\62\63\7\4\2\2"+
-		"\63\65\7\32\2\2\64\62\3\2\2\2\64\65\3\2\2\2\65\67\3\2\2\2\66\36\3\2\2"+
-		"\2\66&\3\2\2\2\66.\3\2\2\2\67\7\3\2\2\289\7\7\2\29:\b\5\1\2:;\7\32\2\2"+
-		";<\7\b\2\2<=\5\f\7\2=>\b\5\1\2>\t\3\2\2\2?@\t\2\2\2@A\b\6\1\2AB\7\32\2"+
-		"\2BC\7\b\2\2CD\5\f\7\2DE\b\6\1\2E\13\3\2\2\2FG\b\7\1\2GH\7\32\2\2H_\b"+
-		"\7\1\2IJ\7\13\2\2JK\5\f\7\2KL\7\f\2\2LR\3\2\2\2MN\7\r\2\2NO\5\f\7\2OP"+
-		"\7\16\2\2PR\3\2\2\2QI\3\2\2\2QM\3\2\2\2RS\3\2\2\2ST\b\7\1\2T_\3\2\2\2"+
-		"UV\7\17\2\2VW\5\f\7\2WX\7\f\2\2XY\b\7\1\2Y_\3\2\2\2Z[\7\25\2\2[\\\5\f"+
-		"\7\7\\]\b\7\1\2]_\3\2\2\2^F\3\2\2\2^Q\3\2\2\2^U\3\2\2\2^Z\3\2\2\2_\u008c"+
-		"\3\2\2\2`b\f\f\2\2ac\7\20\2\2ba\3\2\2\2bc\3\2\2\2cd\3\2\2\2de\5\f\7\r"+
-		"ef\b\7\1\2f\u008b\3\2\2\2gh\f\6\2\2hi\7\26\2\2ij\5\f\7\7jk\b\7\1\2k\u008b"+
-		"\3\2\2\2lm\f\5\2\2mn\7\27\2\2no\5\f\7\6op\b\7\1\2p\u008b\3\2\2\2qr\f\4"+
-		"\2\2rs\7\30\2\2st\5\f\7\5tu\b\7\1\2u\u008b\3\2\2\2vw\f\3\2\2wx\7\31\2"+
-		"\2xy\5\f\7\4yz\b\7\1\2z\u008b\3\2\2\2{|\f\13\2\2|}\7\20\2\2}\u008b\b\7"+
-		"\1\2~\177\f\n\2\2\177\u0080\7\21\2\2\u0080\u008b\b\7\1\2\u0081\u0082\f"+
-		"\t\2\2\u0082\u0083\7\22\2\2\u0083\u008b\b\7\1\2\u0084\u0086\f\b\2\2\u0085"+
-		"\u0087\7\23\2\2\u0086\u0085\3\2\2\2\u0086\u0087\3\2\2\2\u0087\u0088\3"+
-		"\2\2\2\u0088\u0089\7\24\2\2\u0089\u008b\b\7\1\2\u008a`\3\2\2\2\u008ag"+
-		"\3\2\2\2\u008al\3\2\2\2\u008aq\3\2\2\2\u008av\3\2\2\2\u008a{\3\2\2\2\u008a"+
-		"~\3\2\2\2\u008a\u0081\3\2\2\2\u008a\u0084\3\2\2\2\u008b\u008e\3\2\2\2"+
-		"\u008c\u008a\3\2\2\2\u008c\u008d\3\2\2\2\u008d\r\3\2\2\2\u008e\u008c\3"+
-		"\2\2\2\17\17\24\34$,\64\66Q^b\u0086\u008a\u008c";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u00a4\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\5\2\22\n\2\3\2\6\2"+
+		"\25\n\2\r\2\16\2\26\3\2\3\2\3\2\3\3\3\3\3\3\3\3\5\3 \n\3\3\4\5\4#\n\4"+
+		"\3\4\3\4\3\4\3\4\3\4\5\4*\n\4\3\4\3\4\3\4\5\4/\n\4\3\4\3\4\3\4\3\4\3\4"+
+		"\5\4\66\n\4\3\4\3\4\3\4\5\4;\n\4\3\4\3\4\3\4\3\4\3\4\5\4B\n\4\3\4\3\4"+
+		"\5\4F\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\7"+
+		"\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bf\n\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bs\n\b\3\b\3\b\5\bw\n\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
+		"\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b"+
+		"\u009b\n\b\3\b\3\b\7\b\u009f\n\b\f\b\16\b\u00a2\13\b\3\b\2\3\16\t\2\4"+
+		"\6\b\n\f\16\2\3\3\2\n\13\2\u00b8\2\21\3\2\2\2\4\37\3\2\2\2\6E\3\2\2\2"+
+		"\bG\3\2\2\2\nN\3\2\2\2\fU\3\2\2\2\16r\3\2\2\2\20\22\7\33\2\2\21\20\3\2"+
+		"\2\2\21\22\3\2\2\2\22\24\3\2\2\2\23\25\5\4\3\2\24\23\3\2\2\2\25\26\3\2"+
+		"\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\30\3\2\2\2\30\31\7\2\2\3\31\32\b\2"+
+		"\1\2\32\3\3\2\2\2\33 \5\6\4\2\34 \5\b\5\2\35 \5\n\6\2\36 \5\f\7\2\37\33"+
+		"\3\2\2\2\37\34\3\2\2\2\37\35\3\2\2\2\37\36\3\2\2\2 \5\3\2\2\2!#\7\3\2"+
+		"\2\"!\3\2\2\2\"#\3\2\2\2#$\3\2\2\2$%\7\4\2\2%&\b\4\1\2&)\5\16\b\2\'(\7"+
+		"\5\2\2(*\7\33\2\2)\'\3\2\2\2)*\3\2\2\2*+\3\2\2\2+,\b\4\1\2,F\3\2\2\2-"+
+		"/\7\3\2\2.-\3\2\2\2./\3\2\2\2/\60\3\2\2\2\60\61\7\6\2\2\61\62\b\4\1\2"+
+		"\62\65\5\16\b\2\63\64\7\5\2\2\64\66\7\33\2\2\65\63\3\2\2\2\65\66\3\2\2"+
+		"\2\66\67\3\2\2\2\678\b\4\1\28F\3\2\2\29;\7\3\2\2:9\3\2\2\2:;\3\2\2\2;"+
+		"<\3\2\2\2<=\7\7\2\2=>\b\4\1\2>A\5\16\b\2?@\7\5\2\2@B\7\33\2\2A?\3\2\2"+
+		"\2AB\3\2\2\2BC\3\2\2\2CD\b\4\1\2DF\3\2\2\2E\"\3\2\2\2E.\3\2\2\2E:\3\2"+
+		"\2\2F\7\3\2\2\2GH\7\b\2\2HI\b\5\1\2IJ\7\33\2\2JK\7\t\2\2KL\5\16\b\2LM"+
+		"\b\5\1\2M\t\3\2\2\2NO\t\2\2\2OP\b\6\1\2PQ\7\33\2\2QR\7\t\2\2RS\5\16\b"+
+		"\2ST\b\6\1\2T\13\3\2\2\2UV\7\f\2\2VW\5\16\b\2WX\7\5\2\2XY\7\33\2\2Y\r"+
+		"\3\2\2\2Z[\b\b\1\2[\\\7\33\2\2\\s\b\b\1\2]^\7\r\2\2^_\5\16\b\2_`\7\16"+
+		"\2\2`f\3\2\2\2ab\7\17\2\2bc\5\16\b\2cd\7\20\2\2df\3\2\2\2e]\3\2\2\2ea"+
+		"\3\2\2\2fg\3\2\2\2gh\b\b\1\2hs\3\2\2\2ij\7\21\2\2jk\5\16\b\2kl\7\16\2"+
+		"\2lm\b\b\1\2ms\3\2\2\2no\7\3\2\2op\5\16\b\7pq\b\b\1\2qs\3\2\2\2rZ\3\2"+
+		"\2\2re\3\2\2\2ri\3\2\2\2rn\3\2\2\2s\u00a0\3\2\2\2tv\f\f\2\2uw\7\22\2\2"+
+		"vu\3\2\2\2vw\3\2\2\2wx\3\2\2\2xy\5\16\b\ryz\b\b\1\2z\u009f\3\2\2\2{|\f"+
+		"\6\2\2|}\7\27\2\2}~\5\16\b\7~\177\b\b\1\2\177\u009f\3\2\2\2\u0080\u0081"+
+		"\f\5\2\2\u0081\u0082\7\30\2\2\u0082\u0083\5\16\b\6\u0083\u0084\b\b\1\2"+
+		"\u0084\u009f\3\2\2\2\u0085\u0086\f\4\2\2\u0086\u0087\7\31\2\2\u0087\u0088"+
+		"\5\16\b\5\u0088\u0089\b\b\1\2\u0089\u009f\3\2\2\2\u008a\u008b\f\3\2\2"+
+		"\u008b\u008c\7\32\2\2\u008c\u008d\5\16\b\4\u008d\u008e\b\b\1\2\u008e\u009f"+
+		"\3\2\2\2\u008f\u0090\f\13\2\2\u0090\u0091\7\22\2\2\u0091\u009f\b\b\1\2"+
+		"\u0092\u0093\f\n\2\2\u0093\u0094\7\23\2\2\u0094\u009f\b\b\1\2\u0095\u0096"+
+		"\f\t\2\2\u0096\u0097\7\24\2\2\u0097\u009f\b\b\1\2\u0098\u009a\f\b\2\2"+
+		"\u0099\u009b\7\25\2\2\u009a\u0099\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009c"+
+		"\3\2\2\2\u009c\u009d\7\26\2\2\u009d\u009f\b\b\1\2\u009et\3\2\2\2\u009e"+
+		"{\3\2\2\2\u009e\u0080\3\2\2\2\u009e\u0085\3\2\2\2\u009e\u008a\3\2\2\2"+
+		"\u009e\u008f\3\2\2\2\u009e\u0092\3\2\2\2\u009e\u0095\3\2\2\2\u009e\u0098"+
+		"\3\2\2\2\u009f\u00a2\3\2\2\2\u00a0\u009e\3\2\2\2\u00a0\u00a1\3\2\2\2\u00a1"+
+		"\17\3\2\2\2\u00a2\u00a0\3\2\2\2\22\21\26\37\").\65:AEerv\u009a\u009e\u00a0";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

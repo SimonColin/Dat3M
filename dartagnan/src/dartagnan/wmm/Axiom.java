@@ -16,21 +16,48 @@ import java.util.Set;
  * @author Florian Furbach
  */
 public abstract class Axiom {
+
     protected Relation rel;
+
+    protected boolean negate = false;
 
     public Axiom(Relation rel) {
         this.rel = rel;
     }
 
+    public Axiom(Relation rel, boolean negate) {
+        this.rel = rel;
+        this.negate = negate;
+    }
+
     public Relation getRel() {
         return rel;
     }
-    
-    public abstract String toString();
 
-    public abstract BoolExpr Consistent(Set<Event> events, Context ctx) throws Z3Exception;
+    public BoolExpr Consistent(Set<Event> events, Context ctx) throws Z3Exception{
+        if(negate){
+            return _inconsistent(events, ctx);
+        }
+        return _consistent(events, ctx);
+    }
 
-    public abstract BoolExpr Inconsistent(Set<Event> events, Context ctx) throws Z3Exception;
+    public BoolExpr Inconsistent(Set<Event> events, Context ctx) throws Z3Exception{
+        if(negate){
+            return _consistent(events, ctx);
+        }
+        return _inconsistent(events, ctx);
+    }
 
+    public String toString(){
+        if(negate){
+            return "~" + _toString();
+        }
+        return _toString();
+    }
 
+    protected abstract BoolExpr _consistent(Set<Event> events, Context ctx) throws Z3Exception;
+
+    protected abstract BoolExpr _inconsistent(Set<Event> events, Context ctx) throws Z3Exception;
+
+    protected abstract String _toString();
 }

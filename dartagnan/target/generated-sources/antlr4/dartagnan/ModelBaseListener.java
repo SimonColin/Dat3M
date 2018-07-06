@@ -82,6 +82,18 @@ public class ModelBaseListener implements ModelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterShowDefinition(ModelParser.ShowDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitShowDefinition(ModelParser.ShowDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpression(ModelParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
