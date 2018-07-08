@@ -13,7 +13,7 @@ import java.util.ArrayList;
 }
 
 mcm returns [Wmm value]
-    :   (NAME)? (definition)+ EOF {
+    :   (NAME)? (NEW_LINE)* (definition (NEW_LINE)+)* definition (NEW_LINE)* EOF {
             $value =  wmm;
         }
     ;
@@ -167,18 +167,22 @@ NAME
     : [A-Za-z0-9\-_]+
     ;
 
+NEW_LINE
+    :   '\r'? '\n'
+    ;
+
 LINE_COMMENT
-    :   '//' ~[\r\n]*
+    :   '//' ~[\n]*
         -> skip
     ;
 
 BLOCK_COMMENT
-    :   '(*' .*? '*)'
+    :   '(*' (.)*? '*)'
         -> skip
     ;
 
 WS
-    :   [ \t\n\r]+
+    :   [ \t]+
         -> skip
     ;
 
