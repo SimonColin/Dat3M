@@ -15,23 +15,10 @@ import java.util.stream.Collectors;
 import com.microsoft.z3.*;
 
 import dartagnan.expression.AConst;
-import dartagnan.program.Barrier;
-import dartagnan.program.Event;
-import dartagnan.program.Init;
-import dartagnan.program.Isb;
-import dartagnan.program.Ish;
-import dartagnan.program.Isync;
-import dartagnan.program.Load;
-import dartagnan.program.Local;
-import dartagnan.program.Location;
-import dartagnan.program.Lwsync;
-import dartagnan.program.MemEvent;
-import dartagnan.program.Mfence;
-import dartagnan.program.Program;
-import dartagnan.program.Register;
-import dartagnan.program.Skip;
-import dartagnan.program.Store;
-import dartagnan.program.Sync;
+import dartagnan.program.*;
+import dartagnan.program.event.atomic.RMWRead;
+import dartagnan.program.event.atomic.RMWStore;
+import dartagnan.program.event.atomic.RMWWrite;
 
 public class Domain {
 
@@ -376,6 +363,39 @@ public class Domain {
 			}
 			enc = ctx.mkAnd(enc, ctx.mkImplies(e.executes(ctx), encodeEO(rfPairs, ctx)));
 		}
+
+        enc = ctx.mkAnd(enc, encodeRMW(program, ctx));
+
 		return enc;
+	}
+
+	protected static BoolExpr encodeRMW(Program program, Context ctx) throws Z3Exception {
+        BoolExpr enc = ctx.mkTrue();
+		Set<Event> rmwWrites = program.getEvents().stream().filter(e -> e instanceof RMWStore).collect(Collectors.toSet());
+
+		if(!rmwWrites.isEmpty()){
+            for(Event w : rmwWrites){
+                RMWRead r = ((RMWStore)w).getReadEvent();
+                enc = ctx.mkAnd(enc, ctx.mkEq(r.executes(ctx), w.executes(ctx)));
+                enc = ctx.mkAnd(enc, ctx.mkNot(edge("rf", w, r, ctx)));
+                enc = ctx.mkAnd(enc, edge("rmw", r, w, ctx));
+            }
+
+            Relation rmw = new BasicRelation("rmw");
+            Relation rfe = new BasicRelation("fre");
+            Relation coe = new BasicRelation("coe");
+
+            Relation test = new RelComposition(rfe, coe);
+            Set<String> temp = new HashSet<String>();
+
+
+            Relation inconsistentRMW = new RelIntersection(rmw, new RelComposition(rfe, coe));
+            enc = ctx.mkAnd(enc, inconsistentRMW.encode(program, ctx, temp));
+            Axiom consistentRMW = new Empty(inconsistentRMW);
+            enc = ctx.mkAnd(enc, consistentRMW.Consistent(program.getEvents(), ctx));
+
+        }
+
+        return enc;
 	}
 }

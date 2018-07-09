@@ -12,7 +12,7 @@ import dartagnan.utils.Pair;
 
 public class Read extends MemEvent {
 
-	private Register reg;
+	protected Register reg;
 	
 	public Read(Register reg, Location loc, String atomic) {
 		type.add(EVENT_TYPE_READ);
@@ -58,35 +58,37 @@ public class Read extends MemEvent {
 		ld.setHLId(memId);
 		ld.setUnfCopy(getUnfCopy());
 		ld.condLevel = this.condLevel;
-
-		Sync sync = new Sync();
-		sync.condLevel = this.condLevel;
-		Lwsync lwsync = new Lwsync();
-		lwsync.condLevel = this.condLevel;
-		Ish ish = new Ish();
-		ish.condLevel = this.condLevel;
 		
 		if(!target.equals("power") && !target.equals("arm")) {
 			return ld;
 		}
+
 		if(atomic.equals("_rx") || atomic.equals("_na")) {
 			return ld;
 		}
+
 		if(target.equals("power")) {
-			if(atomic.equals("_sc")) {
+            Lwsync lwsync = new Lwsync();
+            lwsync.condLevel = this.condLevel;
+
+            if(atomic.equals("_con") || atomic.equals("_acq")) {
+                return new Seq(ld, lwsync);
+            }
+
+            if(atomic.equals("_sc")) {
 				if(leading) {
+                    Sync sync = new Sync();
+                    sync.condLevel = this.condLevel;
 					return new Seq(sync, new Seq(ld, lwsync));	
 				}
-				else {
-					return new Seq(ld, lwsync);
-				}
+                return new Seq(ld, lwsync);
 			}
-			if(atomic.equals("_con") || atomic.equals("_acq")) {
-				return new Seq(ld, lwsync);
-			}			
 		}
+
 		if(target.equals("arm")) {
 			if(atomic.equals("_con") || atomic.equals("_acq") || atomic.equals("_sc")) {
+                Ish ish = new Ish();
+                ish.condLevel = this.condLevel;
 				return new Seq(ld, ish);
 			}			
 		}
@@ -100,25 +102,26 @@ public class Read extends MemEvent {
 		ld.setHLId(hashCode());
 		ld.condLevel = this.condLevel;
 
-		Sync sync = new OptSync();
-		sync.condLevel = this.condLevel;
-		Lwsync lwsync = new OptLwsync();
-		lwsync.condLevel = this.condLevel;
-		
+        if(atomic.equals("_rx") || atomic.equals("_na")) {
+            return ld;
+        }
+
+        Lwsync lwsync = new OptLwsync();
+        lwsync.condLevel = this.condLevel;
+
+        if(atomic.equals("_con") || atomic.equals("_acq")) {
+            return new Seq(ld, lwsync);
+        }
+
 		if(atomic.equals("_sc")) {
 			if(leading) {
+                Sync sync = new OptSync();
+                sync.condLevel = this.condLevel;
 				return new Seq(sync, new Seq(ld, lwsync));	
 			}
-			else {
-				return new Seq(ld, lwsync);
-			}
-		}
-		if(atomic.equals("_rx") || atomic.equals("_na")) {
-			return ld;
-		}
-		if(atomic.equals("_con") || atomic.equals("_acq")) {
 			return new Seq(ld, lwsync);
 		}
+
 		else System.out.println(String.format("Error in the atomic operation type of %s", this));
 		return null;
 	}

@@ -20,7 +20,6 @@ public class Empty extends Axiom {
 
     @Override
     protected BoolExpr _consistent(Set<Event> events, Context ctx) throws Z3Exception {
-        System.out.println("Testing consistent for " + rel.getName());
         BoolExpr enc = ctx.mkTrue();
         for(Event e1 : events){
             for(Event e2 : events){
